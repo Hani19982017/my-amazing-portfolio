@@ -1,0 +1,246 @@
+/* Custom Styles for Report Scheduler */
+
+:root {
+    --primary-color: #0d6efd;
+    --success-color: #198754;
+    --danger-color: #dc3545;
+    --info-color: #0dcaf0;
+    --warning-color: #ffc107;
+}
+
+body {
+    background-color: #f5f7fa;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Navbar */
+.navbar-brand {
+    font-weight: 600;
+    font-size: 1.3rem;
+}
+
+/* Cards */
+.card {
+    border: none;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    border-radius: 12px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+}
+
+.card-header {
+    background-color: transparent;
+    border-bottom: 1px solid #eee;
+    font-weight: 600;
+}
+
+/* Stats Cards */
+.card.bg-primary,
+.card.bg-success,
+.card.bg-info,
+.card.bg-warning {
+    border-radius: 12px;
+}
+
+.card.bg-primary:hover,
+.card.bg-success:hover,
+.card.bg-info:hover,
+.card.bg-warning:hover {
+    transform: translateY(-3px);
+}
+
+/* Tables */
+.table {
+    margin-bottom: 0;
+}
+
+.table th {
+    font-weight: 600;
+    color: #495057;
+    border-top: none;
+    background-color: #f8f9fa;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(13, 110, 253, 0.05);
+}
+
+/* Buttons */
+.btn {
+    border-radius: 8px;
+    font-weight: 500;
+    padding: 0.5rem 1.25rem;
+}
+
+.btn-group-sm > .btn {
+    padding: 0.25rem 0.5rem;
+    border-radius: 6px;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+    border: none;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #0b5ed7 0%, #0a58ca 100%);
+}
+
+.btn-success {
+    background: linear-gradient(135deg, #198754 0%, #157347 100%);
+    border: none;
+}
+
+.btn-info {
+    background: linear-gradient(135deg, #0dcaf0 0%, #0bb5d9 100%);
+    border: none;
+}
+
+/* Badges */
+.badge {
+    font-weight: 500;
+    padding: 0.5em 0.8em;
+    border-radius: 6px;
+}
+
+/* Alerts */
+.alert {
+    border: none;
+    border-radius: 10px;
+}
+
+/* Form Controls */
+.form-control,
+.form-select {
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+    padding: 0.625rem 1rem;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.15);
+}
+
+.form-label {
+    font-weight: 500;
+    color: #495057;
+    margin-bottom: 0.5rem;
+}
+
+/* Form Switch */
+.form-switch .form-check-input {
+    width: 3em;
+    height: 1.5em;
+}
+
+/* List Groups */
+.list-group-item {
+    border: none;
+    border-bottom: 1px solid #eee;
+    padding: 1rem;
+}
+
+.list-group-item:last-child {
+    border-bottom: none;
+}
+
+/* Footer */
+footer {
+    border-top: 1px solid #eee;
+}
+
+/* Pagination */
+.pagination {
+    gap: 0.25rem;
+}
+
+.page-link {
+    border-radius: 8px;
+    border: none;
+    color: #0d6efd;
+    padding: 0.5rem 1rem;
+}
+
+.page-item.active .page-link {
+    background-color: #0d6efd;
+}
+
+/* Display icons */
+.display-1 {
+    opacity: 0.8;
+}
+
+/* Custom animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.card {
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* Status indicators */
+.status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 0.5rem;
+}
+
+.status-dot.active {
+    background-color: #198754;
+}
+
+.status-dot.inactive {
+    background-color: #6c757d;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .btn-group {
+        flex-wrap: wrap;
+    }
+    
+    .card-body {
+        padding: 1rem;
+    }
+    
+    .table-responsive {
+        font-size: 0.875rem;
+    }
+}
+
+/* Empty states */
+.empty-state {
+    padding: 3rem;
+    text-align: center;
+}
+
+.empty-state i {
+    color: #dee2e6;
+    margin-bottom: 1rem;
+}
+
+/* Quick action buttons */
+.quick-actions .btn {
+    margin-bottom: 0.5rem;
+}
+
+/* Tooltips for truncated text */
+[title] {
+    cursor: help;
+}
