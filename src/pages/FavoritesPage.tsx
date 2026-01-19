@@ -1,6 +1,7 @@
-import { Heart, Trash2 } from "lucide-react";
+import { Heart } from "lucide-react";
 import { AppLayout } from "@/components/songy/AppLayout";
 import { SingerCard } from "@/components/songy/SingerCard";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const favorites = [
   {
@@ -11,6 +12,7 @@ const favorites = [
     rating: 4.9,
     reviewCount: 156,
     genres: ["Arabic", "Khaleeji", "Pop"],
+    genresAr: ["عربي", "خليجي", "بوب"],
     priceRange: "SAR 500+",
     isFeatured: true,
   },
@@ -22,6 +24,7 @@ const favorites = [
     rating: 4.9,
     reviewCount: 178,
     genres: ["Kids Songs", "Birthday", "Pop"],
+    genresAr: ["أغاني أطفال", "عيد ميلاد", "بوب"],
     priceRange: "SAR 300+",
     isFeatured: true,
   },
@@ -33,20 +36,23 @@ const favorites = [
     rating: 4.9,
     reviewCount: 211,
     genres: ["Kids Songs", "Newborn", "Lullaby"],
+    genresAr: ["أغاني أطفال", "مواليد", "تهويدة"],
     priceRange: "SAR 350+",
   },
 ];
 
 const FavoritesPage = () => {
+  const { t } = useLanguage();
+
   return (
     <AppLayout>
       <div className="px-4 py-8">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
           <div className="mb-8">
-            <h1 className="text-3xl md:text-4xl font-bold">Favorites</h1>
+            <h1 className="text-3xl md:text-4xl font-bold">{t("favorites.title")}</h1>
             <p className="text-muted-foreground mt-2">
-              Your saved singers and studios
+              {t("favorites.subtitle")}
             </p>
           </div>
 
@@ -60,9 +66,9 @@ const FavoritesPage = () => {
           ) : (
             <div className="text-center py-16">
               <Heart className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-              <h3 className="text-lg font-semibold mb-2">No favorites yet</h3>
+              <h3 className="text-lg font-semibold mb-2">{t("favorites.noFavorites")}</h3>
               <p className="text-muted-foreground">
-                Save your favorite singers and studios for quick access
+                {t("favorites.noFavoritesDesc")}
               </p>
             </div>
           )}
