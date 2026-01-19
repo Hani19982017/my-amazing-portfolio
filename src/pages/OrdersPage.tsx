@@ -64,6 +64,7 @@ const OrdersPage = () => {
   const { t, language } = useLanguage();
   const isArabic = language === "ar";
   const [selectedOrder, setSelectedOrder] = useState<typeof orders[0] | null>(null);
+  const [dialogType, setDialogType] = useState<"song" | "status" | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [audio] = useState(() => new Audio());
 
@@ -95,9 +96,12 @@ const OrdersPage = () => {
   };
 
   const handleOrderClick = (order: typeof orders[0]) => {
+    setSelectedOrder(order);
     if (order.status === "completed" && order.songUrl) {
-      setSelectedOrder(order);
+      setDialogType("song");
       audio.src = order.songUrl;
+    } else {
+      setDialogType("status");
     }
   };
 
@@ -114,6 +118,7 @@ const OrdersPage = () => {
     audio.pause();
     setIsPlaying(false);
     setSelectedOrder(null);
+    setDialogType(null);
   };
 
   const handleDownload = () => {
@@ -148,10 +153,7 @@ const OrdersPage = () => {
                 <div
                   key={order.id}
                   onClick={() => handleOrderClick(order)}
-                  className={cn(
-                    "bg-card border border-border rounded-2xl p-4 md:p-6 transition-all",
-                    isCompleted && "cursor-pointer hover:border-primary/50 hover:bg-card/80"
-                  )}
+                  className="bg-card border border-border rounded-2xl p-4 md:p-6 transition-all cursor-pointer hover:border-primary/50 hover:bg-card/80"
                 >
                   <div className="flex items-start gap-4">
                     {/* Singer Image */}
@@ -218,12 +220,13 @@ const OrdersPage = () => {
                         </div>
                       </div>
 
-                      {/* Tap to listen hint for completed orders */}
-                      {isCompleted && (
-                        <p className="mt-2 text-xs text-primary text-center">
-                          {isArabic ? "اضغط للاستماع" : "Tap to listen"}
-                        </p>
-                      )}
+                      {/* Tap hint */}
+                      <p className="mt-2 text-xs text-primary text-center">
+                        {isCompleted 
+                          ? (isArabic ? "اضغط للاستماع" : "Tap to listen")
+                          : (isArabic ? "اضغط لعرض التفاصيل" : "Tap for details")
+                        }
+                      </p>
                     </div>
                   </div>
                 </div>
@@ -243,8 +246,8 @@ const OrdersPage = () => {
         </div>
       </div>
 
-      {/* Song Player Dialog */}
-      <Dialog open={!!selectedOrder} onOpenChange={handleDialogClose}>
+      {/* Song Player Dialog (for completed orders) */}
+      <Dialog open={dialogType === "song"} onOpenChange={handleDialogClose}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
             <DialogTitle className="text-center">
@@ -298,6 +301,99 @@ const OrdersPage = () => {
               </Button>
             </div>
           )}
+        </DialogContent>
+      </Dialog>
+
+      {/* Status Dialog (for non-completed orders) */}
+      <Dialog open={dialogType === "status"} onOpenChange={handleDialogClose}>
+        <DialogContent className="sm:max-w-md">
+          {selectedOrder && (() => {
+            const status = statusConfig[selectedOrder.status as keyof typeof statusConfig];
+            const StatusIcon = status.icon;
+            
+            const statusMessages = {
+              pending: {
+                title: isArabic ? "طلبك قيد الانتظار" : "Your Order is Pending",
+                description: isArabic 
+                  ? "طلبك في انتظار المراجعة والتأكيد من المطرب. سيتم إعلامك فور البدء في العمل عليه."
+                  : "Your order is waiting for review and confirmation from the singer. You'll be notified once they start working on it.",
+              },
+              in_progress: {
+                title: isArabic ? "جاري العمل على طلبك" : "Your Order is In Progress",
+                description: isArabic 
+                  ? "المطرب يعمل حالياً على أغنيتك! سيتم تسليمها في الموعد المحدد."
+                  : "The singer is currently working on your song! It will be delivered by the estimated date.",
+              },
+              cancelled: {
+                title: isArabic ? "تم إلغاء الطلب" : "Order Cancelled",
+                description: isArabic 
+                  ? "تم إلغاء هذا الطلب. يمكنك طلب أغنية جديدة في أي وقت."
+                  : "This order has been cancelled. You can place a new order anytime.",
+              },
+            };
+
+            const message = statusMessages[selectedOrder.status as keyof typeof statusMessages];
+
+            return (
+              <>
+                <DialogHeader>
+                  <DialogTitle className="text-center">
+                    {message?.title}
+                  </DialogTitle>
+                </DialogHeader>
+                
+                <div className="flex flex-col items-center gap-6 py-4">
+                  {/* Status Icon */}
+                  <div className={cn("w-20 h-20 rounded-full flex items-center justify-center", status.bg)}>
+                    <StatusIcon className={cn("w-10 h-10", status.color)} />
+                  </div>
+
+                  {/* Singer Info */}
+                  <div className="flex items-center gap-3">
+                    <img
+                      src={selectedOrder.singerImage}
+                      alt={selectedOrder.singerName}
+                      className="w-12 h-12 rounded-xl object-cover"
+                    />
+                    <div>
+                      <h4 className="font-medium">
+                        {isArabic ? selectedOrder.songTypeAr : selectedOrder.songType}
+                      </h4>
+                      <p className="text-sm text-muted-foreground">
+                        {t("orders.by")} {isArabic ? selectedOrder.singerNameAr : selectedOrder.singerName}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Description */}
+                  <p className="text-center text-muted-foreground text-sm">
+                    {message?.description}
+                  </p>
+
+                  {/* Estimated Delivery */}
+                  {selectedOrder.status !== "cancelled" && (
+                    <div className="text-center p-3 rounded-xl bg-muted/50 w-full">
+                      <p className="text-xs text-muted-foreground">
+                        {t("orders.estDelivery")}
+                      </p>
+                      <p className="font-semibold text-primary">
+                        {isArabic ? selectedOrder.estimatedDeliveryAr : selectedOrder.estimatedDelivery}
+                      </p>
+                    </div>
+                  )}
+
+                  {/* Close Button */}
+                  <Button
+                    variant="outline"
+                    onClick={handleDialogClose}
+                    className="w-full"
+                  >
+                    {isArabic ? "إغلاق" : "Close"}
+                  </Button>
+                </div>
+              </>
+            );
+          })()}
         </DialogContent>
       </Dialog>
     </AppLayout>
