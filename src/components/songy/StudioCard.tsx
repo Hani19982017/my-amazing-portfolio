@@ -1,6 +1,7 @@
 import { Star, MapPin, Clock, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface StudioCardProps {
   id: string;
@@ -10,9 +11,12 @@ interface StudioCardProps {
   rating: number;
   reviewCount: number;
   location: string;
+  locationAr?: string;
   services: string[];
+  servicesAr?: string[];
   isVerified?: boolean;
   turnaround: string;
+  turnaroundAr?: string;
 }
 
 export const StudioCard = ({
@@ -23,17 +27,24 @@ export const StudioCard = ({
   rating,
   reviewCount,
   location,
+  locationAr,
   services,
+  servicesAr,
   isVerified = false,
   turnaround,
+  turnaroundAr,
 }: StudioCardProps) => {
+  const { t, language } = useLanguage();
+  const isArabic = language === "ar";
+  const displayServices = isArabic && servicesAr ? servicesAr : services;
+
   return (
     <div className="group relative rounded-2xl overflow-hidden card-hover bg-card border border-border">
       {/* Verified Badge */}
       {isVerified && (
-        <div className="absolute top-3 left-3 z-10 px-2 py-1 rounded-full bg-green-500/90 text-white text-xs font-semibold flex items-center gap-1">
+        <div className="absolute top-3 start-3 z-10 px-2 py-1 rounded-full bg-green-500/90 text-white text-xs font-semibold flex items-center gap-1">
           <CheckCircle className="w-3 h-3" />
-          Verified
+          {t("studios.verified")}
         </div>
       )}
 
@@ -50,8 +61,10 @@ export const StudioCard = ({
       {/* Content */}
       <div className="p-4 space-y-3">
         <div>
-          <h3 className="font-semibold text-foreground">{name}</h3>
-          {nameAr && (
+          <h3 className="font-semibold text-foreground">
+            {isArabic && nameAr ? nameAr : name}
+          </h3>
+          {!isArabic && nameAr && (
             <p className="text-sm text-primary/80">{nameAr}</p>
           )}
         </div>
@@ -60,11 +73,11 @@ export const StudioCard = ({
         <div className="flex items-center gap-4 text-sm text-muted-foreground">
           <div className="flex items-center gap-1">
             <MapPin className="w-4 h-4" />
-            <span>{location}</span>
+            <span>{isArabic && locationAr ? locationAr : location}</span>
           </div>
           <div className="flex items-center gap-1">
             <Clock className="w-4 h-4" />
-            <span>{turnaround}</span>
+            <span>{isArabic && turnaroundAr ? turnaroundAr : turnaround}</span>
           </div>
         </div>
 
@@ -75,13 +88,13 @@ export const StudioCard = ({
             <span className="text-sm font-medium">{rating}</span>
           </div>
           <span className="text-xs text-muted-foreground">
-            ({reviewCount} reviews)
+            ({reviewCount} {t("singers.reviews")})
           </span>
         </div>
 
         {/* Services */}
         <div className="flex flex-wrap gap-1.5">
-          {services.slice(0, 3).map((service) => (
+          {displayServices.slice(0, 3).map((service) => (
             <span
               key={service}
               className="px-2 py-0.5 rounded-full bg-primary/10 text-xs text-primary"
@@ -89,16 +102,16 @@ export const StudioCard = ({
               {service}
             </span>
           ))}
-          {services.length > 3 && (
+          {displayServices.length > 3 && (
             <span className="px-2 py-0.5 rounded-full bg-muted text-xs text-muted-foreground">
-              +{services.length - 3} more
+              +{displayServices.length - 3} {t("common.more")}
             </span>
           )}
         </div>
 
         {/* Action */}
         <Button className="w-full bg-gradient-to-r from-primary to-accent text-primary-foreground hover:opacity-90">
-          View Studio
+          {t("studios.viewStudio")}
         </Button>
       </div>
     </div>

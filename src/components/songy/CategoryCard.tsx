@@ -1,6 +1,7 @@
 import { LucideIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface CategoryCardProps {
   title: string;
@@ -19,6 +20,9 @@ export const CategoryCard = ({
   href,
   gradient = "from-primary/20 to-accent/10",
 }: CategoryCardProps) => {
+  const { t, language } = useLanguage();
+  const isArabic = language === "ar";
+
   return (
     <Link
       to={href}
@@ -40,9 +44,9 @@ export const CategoryCard = ({
         {/* Content */}
         <div>
           <h3 className="text-lg font-semibold text-foreground group-hover:text-primary transition-colors">
-            {title}
+            {isArabic && titleAr ? titleAr : title}
           </h3>
-          {titleAr && (
+          {!isArabic && titleAr && (
             <p className="text-sm text-primary/80 font-medium">{titleAr}</p>
           )}
           <p className="text-sm text-muted-foreground mt-1">{description}</p>
@@ -50,9 +54,9 @@ export const CategoryCard = ({
 
         {/* Arrow indicator */}
         <div className="flex items-center gap-1 text-primary text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity">
-          Explore
+          {t("category.explore")}
           <svg
-            className="w-4 h-4 group-hover:translate-x-1 transition-transform"
+            className="w-4 h-4 group-hover:translate-x-1 rtl:group-hover:-translate-x-1 rtl:rotate-180 transition-transform"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"

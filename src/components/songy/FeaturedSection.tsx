@@ -1,6 +1,7 @@
 import { ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { SingerCard } from "./SingerCard";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const featuredSingers = [
   {
@@ -11,6 +12,7 @@ const featuredSingers = [
     rating: 4.9,
     reviewCount: 156,
     genres: ["Arabic", "Khaleeji", "Pop"],
+    genresAr: ["عربي", "خليجي", "بوب"],
     priceRange: "SAR 500+",
     isFeatured: true,
   },
@@ -22,6 +24,7 @@ const featuredSingers = [
     rating: 4.8,
     reviewCount: 89,
     genres: ["Pop", "R&B", "Wedding"],
+    genresAr: ["بوب", "آر أند بي", "أعراس"],
     priceRange: "SAR 400+",
   },
   {
@@ -32,6 +35,7 @@ const featuredSingers = [
     rating: 4.7,
     reviewCount: 203,
     genres: ["Shilat", "Traditional", "Celebration"],
+    genresAr: ["شيلات", "تراثي", "مناسبات"],
     priceRange: "SAR 350+",
   },
   {
@@ -42,28 +46,33 @@ const featuredSingers = [
     rating: 4.9,
     reviewCount: 178,
     genres: ["Kids Songs", "Birthday", "Pop"],
+    genresAr: ["أغاني أطفال", "عيد ميلاد", "بوب"],
     priceRange: "SAR 300+",
     isFeatured: true,
   },
 ];
 
 export const FeaturedSection = () => {
+  const { t } = useLanguage();
+
   return (
     <section className="px-4 py-12">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h2 className="text-2xl md:text-3xl font-bold">Featured Singers</h2>
+            <h2 className="text-2xl md:text-3xl font-bold">
+              {t("featured.title")}
+            </h2>
             <p className="text-muted-foreground mt-1">
-              Top-rated artists ready to create your perfect song
+              {t("featured.subtitle")}
             </p>
           </div>
           <Link
             to="/singers"
             className="flex items-center gap-1 text-primary font-medium hover:underline"
           >
-            View All
+            {t("categories.viewAll")}
             <ChevronRight className="w-4 h-4" />
           </Link>
         </div>
