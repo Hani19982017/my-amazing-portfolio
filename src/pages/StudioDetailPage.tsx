@@ -398,8 +398,11 @@ const StudioDetailPage = () => {
               <Button
                 size="lg"
                 className="flex-1 bg-gradient-to-r from-primary to-accent text-primary-foreground"
+                asChild
               >
-                {isArabic ? "احجز الآن" : "Book Now"}
+                <Link to={`/order?studioId=${studio.id}&studioName=${encodeURIComponent(studio.name)}&studioNameAr=${encodeURIComponent(studio.nameAr)}&studioPrice=${encodeURIComponent(isArabic ? studio.priceAr : studio.price)}`}>
+                  {isArabic ? "احجز الآن" : "Book Now"}
+                </Link>
               </Button>
               <Button
                 size="lg"
