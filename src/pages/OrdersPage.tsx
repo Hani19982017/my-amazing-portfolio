@@ -1,7 +1,15 @@
-import { Clock, CheckCircle, XCircle, Package } from "lucide-react";
+import { useState } from "react";
+import { Clock, CheckCircle, XCircle, Package, Play, Pause, Download } from "lucide-react";
 import { AppLayout } from "@/components/songy/AppLayout";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { cn } from "@/lib/utils";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 
 const orders = [
   {
@@ -16,6 +24,8 @@ const orders = [
     price: "SAR 750",
     estimatedDelivery: "Jan 20, 2026",
     estimatedDeliveryAr: "20 يناير 2026",
+    recipientName: "Mohammad & Fatima",
+    recipientNameAr: "محمد وفاطمة",
   },
   {
     id: "ORD-002",
@@ -29,6 +39,9 @@ const orders = [
     price: "SAR 450",
     estimatedDelivery: "Jan 14, 2026",
     estimatedDeliveryAr: "14 يناير 2026",
+    recipientName: "Ahmad",
+    recipientNameAr: "أحمد",
+    songUrl: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
   },
   {
     id: "ORD-003",
@@ -42,12 +55,17 @@ const orders = [
     price: "SAR 550",
     estimatedDelivery: "Jan 25, 2026",
     estimatedDeliveryAr: "25 يناير 2026",
+    recipientName: "Abdullah",
+    recipientNameAr: "عبدالله",
   },
 ];
 
 const OrdersPage = () => {
   const { t, language } = useLanguage();
   const isArabic = language === "ar";
+  const [selectedOrder, setSelectedOrder] = useState<typeof orders[0] | null>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [audio] = useState(() => new Audio());
 
   const statusConfig = {
     pending: {
@@ -76,6 +94,37 @@ const OrdersPage = () => {
     },
   };
 
+  const handleOrderClick = (order: typeof orders[0]) => {
+    if (order.status === "completed" && order.songUrl) {
+      setSelectedOrder(order);
+      audio.src = order.songUrl;
+    }
+  };
+
+  const togglePlay = () => {
+    if (isPlaying) {
+      audio.pause();
+    } else {
+      audio.play();
+    }
+    setIsPlaying(!isPlaying);
+  };
+
+  const handleDialogClose = () => {
+    audio.pause();
+    setIsPlaying(false);
+    setSelectedOrder(null);
+  };
+
+  const handleDownload = () => {
+    if (selectedOrder?.songUrl) {
+      const link = document.createElement("a");
+      link.href = selectedOrder.songUrl;
+      link.download = `${selectedOrder.id}-song.mp3`;
+      link.click();
+    }
+  };
+
   return (
     <AppLayout>
       <div className="px-4 py-8">
@@ -93,19 +142,31 @@ const OrdersPage = () => {
             {orders.map((order) => {
               const status = statusConfig[order.status as keyof typeof statusConfig];
               const StatusIcon = status.icon;
+              const isCompleted = order.status === "completed";
 
               return (
                 <div
                   key={order.id}
-                  className="bg-card border border-border rounded-2xl p-4 md:p-6"
+                  onClick={() => handleOrderClick(order)}
+                  className={cn(
+                    "bg-card border border-border rounded-2xl p-4 md:p-6 transition-all",
+                    isCompleted && "cursor-pointer hover:border-primary/50 hover:bg-card/80"
+                  )}
                 >
                   <div className="flex items-start gap-4">
                     {/* Singer Image */}
-                    <img
-                      src={order.singerImage}
-                      alt={order.singerName}
-                      className="w-16 h-16 rounded-xl object-cover"
-                    />
+                    <div className="relative">
+                      <img
+                        src={order.singerImage}
+                        alt={order.singerName}
+                        className="w-16 h-16 rounded-xl object-cover"
+                      />
+                      {isCompleted && (
+                        <div className="absolute inset-0 flex items-center justify-center bg-black/40 rounded-xl">
+                          <Play className="w-6 h-6 text-foreground fill-foreground" />
+                        </div>
+                      )}
+                    </div>
 
                     {/* Details */}
                     <div className="flex-1 min-w-0">
@@ -156,6 +217,13 @@ const OrdersPage = () => {
                           </p>
                         </div>
                       </div>
+
+                      {/* Tap to listen hint for completed orders */}
+                      {isCompleted && (
+                        <p className="mt-2 text-xs text-primary text-center">
+                          {isArabic ? "اضغط للاستماع" : "Tap to listen"}
+                        </p>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -174,6 +242,64 @@ const OrdersPage = () => {
           )}
         </div>
       </div>
+
+      {/* Song Player Dialog */}
+      <Dialog open={!!selectedOrder} onOpenChange={handleDialogClose}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-center">
+              {isArabic ? "أغنيتك جاهزة!" : "Your Song is Ready!"}
+            </DialogTitle>
+          </DialogHeader>
+          
+          {selectedOrder && (
+            <div className="flex flex-col items-center gap-6 py-4">
+              {/* Singer Image */}
+              <img
+                src={selectedOrder.singerImage}
+                alt={selectedOrder.singerName}
+                className="w-24 h-24 rounded-2xl object-cover shadow-lg"
+              />
+
+              {/* Song Info */}
+              <div className="text-center">
+                <h3 className="font-semibold text-lg">
+                  {isArabic ? selectedOrder.songTypeAr : selectedOrder.songType}
+                </h3>
+                <p className="text-muted-foreground">
+                  {t("orders.by")} {isArabic ? selectedOrder.singerNameAr : selectedOrder.singerName}
+                </p>
+                <p className="text-sm text-muted-foreground mt-1">
+                  {isArabic ? "إلى: " : "To: "}
+                  {isArabic ? selectedOrder.recipientNameAr : selectedOrder.recipientName}
+                </p>
+              </div>
+
+              {/* Play Button */}
+              <button
+                onClick={togglePlay}
+                className="w-20 h-20 rounded-full bg-primary flex items-center justify-center shadow-lg hover:bg-primary/90 transition-colors"
+              >
+                {isPlaying ? (
+                  <Pause className="w-10 h-10 text-primary-foreground" />
+                ) : (
+                  <Play className="w-10 h-10 text-primary-foreground ms-1" />
+                )}
+              </button>
+
+              {/* Download Button */}
+              <Button
+                variant="outline"
+                onClick={handleDownload}
+                className="gap-2"
+              >
+                <Download className="w-4 h-4" />
+                {isArabic ? "تحميل الأغنية" : "Download Song"}
+              </Button>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </AppLayout>
   );
 };
