@@ -114,7 +114,7 @@ export const SingerCard = ({
             className="bg-primary text-white hover:bg-primary/90"
             asChild
           >
-            <Link to="/order">
+            <Link to={`/order?singerId=${id}&singerName=${encodeURIComponent(name)}&singerNameAr=${encodeURIComponent(nameAr || "")}&price=${encodeURIComponent(priceRange)}`}>
               {t("singers.bookNow")}
             </Link>
           </Button>

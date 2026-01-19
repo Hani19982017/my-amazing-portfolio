@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Music, User, MessageSquare, Send, ChevronDown } from "lucide-react";
 import { AppLayout } from "@/components/songy/AppLayout";
 import { Button } from "@/components/ui/button";
@@ -17,7 +17,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { useToast } from "@/hooks/use-toast";
 
 // Sample data - in real app would come from database
-const singers = [
+const defaultSingers = [
   { id: "1", name: "Ahmed Hassan", nameAr: "أحمد حسن", price: "SAR 500+" },
   { id: "2", name: "Sara Abdullah", nameAr: "سارة عبدالله", price: "SAR 750+" },
   { id: "3", name: "Mohammed Ali", nameAr: "محمد علي", price: "SAR 600+" },
@@ -42,14 +42,33 @@ const OrderFormPage = () => {
   const { t, language } = useLanguage();
   const { toast } = useToast();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const isArabic = language === "ar";
 
+  // Get singer info from URL params (from SingerCard click)
+  const urlSingerId = searchParams.get("singerId");
+  const urlSingerName = searchParams.get("singerName");
+  const urlSingerNameAr = searchParams.get("singerNameAr");
+  const urlPrice = searchParams.get("price");
+
+  // Create singers list including URL singer if not already in list
+  const singers = urlSingerId && urlSingerName && !defaultSingers.find(s => s.id === urlSingerId)
+    ? [...defaultSingers, { id: urlSingerId, name: urlSingerName, nameAr: urlSingerNameAr || "", price: urlPrice || "" }]
+    : defaultSingers;
+
   const [formData, setFormData] = useState({
-    singerId: "",
+    singerId: urlSingerId || "",
     category: "",
     recipientName: "",
     message: "",
   });
+
+  // Update singer when URL params change
+  useEffect(() => {
+    if (urlSingerId) {
+      setFormData(prev => ({ ...prev, singerId: urlSingerId }));
+    }
+  }, [urlSingerId]);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
