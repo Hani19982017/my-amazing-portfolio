@@ -70,11 +70,11 @@ export const SingerCard = ({
       {/* Content */}
       <div className="p-4 space-y-3">
         <div>
-          <h3 className="font-semibold text-foreground">
+          <h3 className="font-semibold text-white">
             {isArabic && nameAr ? nameAr : name}
           </h3>
           {!isArabic && nameAr && (
-            <p className="text-sm text-primary/80">{nameAr}</p>
+            <p className="text-sm text-white/80">{nameAr}</p>
           )}
         </div>
 

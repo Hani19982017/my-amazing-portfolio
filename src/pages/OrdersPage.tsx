@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Clock, CheckCircle, XCircle, Package, Play, Pause, Download, LogIn } from "lucide-react";
+import { Clock, CheckCircle, XCircle, Package, Play, Pause, Download, LogIn, MoreVertical } from "lucide-react";
 import { Link } from "react-router-dom";
 import { AppLayout } from "@/components/songy/AppLayout";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -13,6 +13,13 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { toast } from "sonner";
 
 interface Order {
   id: string;
@@ -165,6 +172,27 @@ const OrdersPage = () => {
     }
   };
 
+  const updateOrderStatus = async (orderId: string, newStatus: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    try {
+      const { error } = await supabase
+        .from("orders")
+        .update({ status: newStatus })
+        .eq("id", orderId);
+
+      if (error) throw error;
+
+      setOrders(orders.map(order => 
+        order.id === orderId ? { ...order, status: newStatus } : order
+      ));
+
+      toast.success(isArabic ? "تم تحديث الحالة بنجاح" : "Status updated successfully");
+    } catch (error) {
+      console.error("Error updating order status:", error);
+      toast.error(isArabic ? "فشل تحديث الحالة" : "Failed to update status");
+    }
+  };
+
   // Show login prompt if not authenticated
   if (!authLoading && !user) {
     return (
@@ -255,15 +283,56 @@ const OrdersPage = () => {
                           </div>
 
                           {/* Status Badge */}
-                          <div
-                            className={cn(
-                              "flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium",
-                              status.bg,
-                              status.color
-                            )}
-                          >
-                            <StatusIcon className="w-3 h-3" />
-                            {t(status.labelKey)}
+                          <div className="flex items-center gap-2">
+                            <div
+                              className={cn(
+                                "flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium",
+                                status.bg,
+                                status.color
+                              )}
+                            >
+                              <StatusIcon className="w-3 h-3" />
+                              {t(status.labelKey)}
+                            </div>
+                            
+                            {/* Status Change Dropdown */}
+                            <DropdownMenu>
+                              <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
+                                <button className="p-1 rounded-full hover:bg-muted transition-colors">
+                                  <MoreVertical className="w-4 h-4 text-muted-foreground" />
+                                </button>
+                              </DropdownMenuTrigger>
+                              <DropdownMenuContent align="end">
+                                <DropdownMenuItem 
+                                  onClick={(e) => updateOrderStatus(order.id, "pending", e)}
+                                  className="gap-2"
+                                >
+                                  <Clock className="w-4 h-4 text-yellow-500" />
+                                  {isArabic ? "قيد الانتظار" : "Pending"}
+                                </DropdownMenuItem>
+                                <DropdownMenuItem 
+                                  onClick={(e) => updateOrderStatus(order.id, "in_progress", e)}
+                                  className="gap-2"
+                                >
+                                  <Package className="w-4 h-4 text-primary" />
+                                  {isArabic ? "قيد التنفيذ" : "In Progress"}
+                                </DropdownMenuItem>
+                                <DropdownMenuItem 
+                                  onClick={(e) => updateOrderStatus(order.id, "completed", e)}
+                                  className="gap-2"
+                                >
+                                  <CheckCircle className="w-4 h-4 text-green-500" />
+                                  {isArabic ? "مكتمل" : "Completed"}
+                                </DropdownMenuItem>
+                                <DropdownMenuItem 
+                                  onClick={(e) => updateOrderStatus(order.id, "cancelled", e)}
+                                  className="gap-2"
+                                >
+                                  <XCircle className="w-4 h-4 text-red-500" />
+                                  {isArabic ? "ملغي" : "Cancelled"}
+                                </DropdownMenuItem>
+                              </DropdownMenuContent>
+                            </DropdownMenu>
                           </div>
                         </div>
 
