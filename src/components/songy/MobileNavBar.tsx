@@ -1,17 +1,19 @@
 import { Home, Grid3X3, Mic2, Music, User } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
-
-const navItems = [
-  { icon: Home, label: "Home", path: "/" },
-  { icon: Grid3X3, label: "Categories", path: "/categories" },
-  { icon: Mic2, label: "Singers", path: "/singers" },
-  { icon: Music, label: "Studios", path: "/studios" },
-  { icon: User, label: "Profile", path: "/profile" },
-];
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export const MobileNavBar = () => {
   const location = useLocation();
+  const { t } = useLanguage();
+
+  const navItems = [
+    { icon: Home, labelKey: "nav.home", path: "/" },
+    { icon: Grid3X3, labelKey: "nav.categories", path: "/categories" },
+    { icon: Mic2, labelKey: "nav.singers", path: "/singers" },
+    { icon: Music, labelKey: "nav.studios", path: "/studios" },
+    { icon: User, labelKey: "nav.profile", path: "/profile" },
+  ];
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50 glass-card border-t border-border safe-area-pb md:hidden">
@@ -35,7 +37,7 @@ export const MobileNavBar = () => {
                   isActive && "scale-110"
                 )}
               />
-              <span className="text-[10px] font-medium">{item.label}</span>
+              <span className="text-[10px] font-medium">{t(item.labelKey)}</span>
               {isActive && (
                 <div className="absolute -bottom-0.5 w-1 h-1 rounded-full bg-primary" />
               )}

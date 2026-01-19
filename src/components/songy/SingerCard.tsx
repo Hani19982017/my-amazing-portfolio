@@ -1,6 +1,7 @@
 import { Star, Play, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface SingerCardProps {
   id: string;
@@ -10,6 +11,7 @@ interface SingerCardProps {
   rating: number;
   reviewCount: number;
   genres: string[];
+  genresAr?: string[];
   priceRange: string;
   isFeatured?: boolean;
 }
@@ -22,9 +24,14 @@ export const SingerCard = ({
   rating,
   reviewCount,
   genres,
+  genresAr,
   priceRange,
   isFeatured = false,
 }: SingerCardProps) => {
+  const { t, language } = useLanguage();
+  const isArabic = language === "ar";
+  const displayGenres = isArabic && genresAr ? genresAr : genres;
+
   return (
     <div
       className={cn(
@@ -34,13 +41,13 @@ export const SingerCard = ({
     >
       {/* Featured Badge */}
       {isFeatured && (
-        <div className="absolute top-3 left-3 z-10 px-2 py-1 rounded-full bg-primary text-primary-foreground text-xs font-semibold">
-          Featured
+        <div className="absolute top-3 start-3 z-10 px-2 py-1 rounded-full bg-primary text-primary-foreground text-xs font-semibold">
+          {t("singers.featured")}
         </div>
       )}
 
       {/* Favorite Button */}
-      <button className="absolute top-3 right-3 z-10 w-8 h-8 rounded-full bg-background/80 backdrop-blur flex items-center justify-center hover:bg-primary/20 transition-colors">
+      <button className="absolute top-3 end-3 z-10 w-8 h-8 rounded-full bg-background/80 backdrop-blur flex items-center justify-center hover:bg-primary/20 transition-colors">
         <Heart className="w-4 h-4 text-foreground" />
       </button>
 
@@ -54,16 +61,18 @@ export const SingerCard = ({
         <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent" />
 
         {/* Play Button */}
-        <button className="absolute bottom-4 right-4 w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 hover:scale-110 shadow-lg">
-          <Play className="w-5 h-5 ml-0.5" fill="currentColor" />
+        <button className="absolute bottom-4 end-4 w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 hover:scale-110 shadow-lg">
+          <Play className="w-5 h-5 ms-0.5" fill="currentColor" />
         </button>
       </div>
 
       {/* Content */}
       <div className="p-4 space-y-3">
         <div>
-          <h3 className="font-semibold text-foreground">{name}</h3>
-          {nameAr && (
+          <h3 className="font-semibold text-foreground">
+            {isArabic && nameAr ? nameAr : name}
+          </h3>
+          {!isArabic && nameAr && (
             <p className="text-sm text-primary/80">{nameAr}</p>
           )}
         </div>
@@ -75,13 +84,13 @@ export const SingerCard = ({
             <span className="text-sm font-medium">{rating}</span>
           </div>
           <span className="text-xs text-muted-foreground">
-            ({reviewCount} reviews)
+            ({reviewCount} {t("singers.reviews")})
           </span>
         </div>
 
         {/* Genres */}
         <div className="flex flex-wrap gap-1.5">
-          {genres.slice(0, 3).map((genre) => (
+          {displayGenres.slice(0, 3).map((genre) => (
             <span
               key={genre}
               className="px-2 py-0.5 rounded-full bg-muted text-xs text-muted-foreground"
@@ -94,11 +103,17 @@ export const SingerCard = ({
         {/* Price & Action */}
         <div className="flex items-center justify-between pt-2 border-t border-border">
           <div>
-            <p className="text-xs text-muted-foreground">Starting from</p>
+            <p className="text-xs text-muted-foreground">
+              {t("singers.startingFrom")}
+            </p>
             <p className="text-primary font-semibold">{priceRange}</p>
           </div>
-          <Button size="sm" variant="outline" className="border-primary/50 text-primary hover:bg-primary/10">
-            Book Now
+          <Button
+            size="sm"
+            variant="outline"
+            className="border-primary/50 text-primary hover:bg-primary/10"
+          >
+            {t("singers.bookNow")}
           </Button>
         </div>
       </div>
