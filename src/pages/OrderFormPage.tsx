@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import { Music, User, MessageSquare, Send, ChevronDown, Building2 } from "lucide-react";
+import { useNavigate, useSearchParams, Link } from "react-router-dom";
+import { Music, User, MessageSquare, Send, ChevronDown, Building2, LogIn } from "lucide-react";
 import { AppLayout } from "@/components/songy/AppLayout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -15,14 +15,16 @@ import {
 } from "@/components/ui/select";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/hooks/useAuth";
+import { supabase } from "@/integrations/supabase/client";
 
 // Sample data - in real app would come from database
 const defaultSingers = [
-  { id: "1", name: "Ahmed Hassan", nameAr: "أحمد حسن", price: "SAR 500+" },
-  { id: "2", name: "Sara Abdullah", nameAr: "سارة عبدالله", price: "SAR 750+" },
-  { id: "3", name: "Mohammed Ali", nameAr: "محمد علي", price: "SAR 600+" },
-  { id: "4", name: "Nora Khalid", nameAr: "نورة خالد", price: "SAR 800+" },
-  { id: "5", name: "Omar Saeed", nameAr: "عمر سعيد", price: "SAR 450+" },
+  { id: "1", name: "Ahmed Hassan", nameAr: "أحمد حسن", price: "SAR 500+", image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop" },
+  { id: "2", name: "Sara Abdullah", nameAr: "سارة عبدالله", price: "SAR 750+", image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop" },
+  { id: "3", name: "Mohammed Ali", nameAr: "محمد علي", price: "SAR 600+", image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200&h=200&fit=crop" },
+  { id: "4", name: "Nora Khalid", nameAr: "نورة خالد", price: "SAR 800+", image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&h=200&fit=crop" },
+  { id: "5", name: "Omar Saeed", nameAr: "عمر سعيد", price: "SAR 450+", image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&h=200&fit=crop" },
 ];
 
 const defaultStudios = [
@@ -35,22 +37,23 @@ const defaultStudios = [
 ];
 
 const categories = [
-  { id: "wedding", labelKey: "category.wedding" },
-  { id: "birthday", labelKey: "category.birthday" },
-  { id: "newborn", labelKey: "category.newborn" },
-  { id: "graduation", labelKey: "category.graduation" },
-  { id: "celebration", labelKey: "category.celebration" },
-  { id: "shilat", labelKey: "category.shilat" },
-  { id: "love", labelKey: "category.love" },
-  { id: "kids", labelKey: "category.kids" },
-  { id: "mothersDay", labelKey: "category.mothersDay" },
-  { id: "fathersDay", labelKey: "category.fathersDay" },
+  { id: "wedding", labelKey: "category.wedding", labelAr: "زفاف" },
+  { id: "birthday", labelKey: "category.birthday", labelAr: "عيد ميلاد" },
+  { id: "newborn", labelKey: "category.newborn", labelAr: "مولود جديد" },
+  { id: "graduation", labelKey: "category.graduation", labelAr: "تخرج" },
+  { id: "celebration", labelKey: "category.celebration", labelAr: "احتفال" },
+  { id: "shilat", labelKey: "category.shilat", labelAr: "شيلات" },
+  { id: "love", labelKey: "category.love", labelAr: "حب" },
+  { id: "kids", labelKey: "category.kids", labelAr: "أطفال" },
+  { id: "mothersDay", labelKey: "category.mothersDay", labelAr: "عيد الأم" },
+  { id: "fathersDay", labelKey: "category.fathersDay", labelAr: "عيد الأب" },
 ];
 
 const OrderFormPage = () => {
   const { t, language } = useLanguage();
   const { toast } = useToast();
   const navigate = useNavigate();
+  const { user, isLoading: authLoading } = useAuth();
   const [searchParams] = useSearchParams();
   const isArabic = language === "ar";
 
@@ -68,7 +71,7 @@ const OrderFormPage = () => {
 
   // Create singers list including URL singer if not already in list
   const singers = urlSingerId && urlSingerName && !defaultSingers.find(s => s.id === urlSingerId)
-    ? [...defaultSingers, { id: urlSingerId, name: urlSingerName, nameAr: urlSingerNameAr || "", price: urlPrice || "" }]
+    ? [...defaultSingers, { id: urlSingerId, name: urlSingerName, nameAr: urlSingerNameAr || "", price: urlPrice || "", image: "" }]
     : defaultSingers;
 
   // Create studios list including URL studio if not already in list
@@ -99,6 +102,16 @@ const OrderFormPage = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    if (!user) {
+      toast({
+        title: isArabic ? "يجب تسجيل الدخول" : "Login Required",
+        description: isArabic ? "يرجى تسجيل الدخول لإرسال الطلب" : "Please sign in to submit an order",
+        variant: "destructive",
+      });
+      navigate("/auth");
+      return;
+    }
+
     // Validation
     if (!formData.singerId || !formData.category || !formData.recipientName.trim()) {
       toast({
@@ -111,20 +124,80 @@ const OrderFormPage = () => {
 
     setIsSubmitting(true);
 
-    // Simulate order submission
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    try {
+      const selectedSinger = singers.find((s) => s.id === formData.singerId);
+      const selectedStudio = studios.find((s) => s.id === formData.studioId);
+      const selectedCategory = categories.find((c) => c.id === formData.category);
 
-    toast({
-      title: t("orderForm.success"),
-      description: t("orderForm.successDesc"),
-    });
+      // Calculate estimated delivery (7 days from now)
+      const estimatedDelivery = new Date();
+      estimatedDelivery.setDate(estimatedDelivery.getDate() + 7);
 
-    setIsSubmitting(false);
-    navigate("/orders");
+      const { error } = await supabase.from("orders").insert({
+        user_id: user.id,
+        singer_id: formData.singerId,
+        singer_name: selectedSinger?.name || "",
+        singer_name_ar: selectedSinger?.nameAr || null,
+        singer_image: selectedSinger?.image || null,
+        studio_id: formData.studioId || null,
+        studio_name: selectedStudio?.name || null,
+        studio_name_ar: selectedStudio?.nameAr || null,
+        category: formData.category,
+        category_ar: selectedCategory?.labelAr || null,
+        recipient_name: formData.recipientName,
+        message: formData.message || null,
+        status: "pending",
+        price: selectedSinger?.price || null,
+        estimated_delivery: estimatedDelivery.toISOString().split("T")[0],
+      });
+
+      if (error) throw error;
+
+      toast({
+        title: t("orderForm.success"),
+        description: t("orderForm.successDesc"),
+      });
+
+      navigate("/orders");
+    } catch (error: any) {
+      toast({
+        title: t("orderForm.error"),
+        description: error.message,
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const selectedSinger = singers.find((s) => s.id === formData.singerId);
   const selectedStudio = studios.find((s) => s.id === formData.studioId);
+
+  // Show login prompt if not authenticated
+  if (!authLoading && !user) {
+    return (
+      <AppLayout>
+        <div className="min-h-[60vh] flex flex-col items-center justify-center p-4">
+          <div className="text-center max-w-md">
+            <LogIn className="w-16 h-16 text-primary mx-auto mb-4" />
+            <h1 className="text-2xl font-bold mb-2">
+              {isArabic ? "يجب تسجيل الدخول" : "Sign In Required"}
+            </h1>
+            <p className="text-muted-foreground mb-6">
+              {isArabic 
+                ? "يرجى تسجيل الدخول أو إنشاء حساب لطلب أغنية مخصصة"
+                : "Please sign in or create an account to order a custom song"}
+            </p>
+            <Button asChild className="w-full">
+              <Link to="/auth">
+                {isArabic ? "تسجيل الدخول" : "Sign In"}
+              </Link>
+            </Button>
+          </div>
+        </div>
+      </AppLayout>
+    );
+  }
 
   return (
     <AppLayout>
