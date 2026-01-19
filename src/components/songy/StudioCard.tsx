@@ -1,4 +1,5 @@
 import { Star, MapPin, Clock, CheckCircle } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -110,8 +111,13 @@ export const StudioCard = ({
         </div>
 
         {/* Action */}
-        <Button className="w-full bg-gradient-to-r from-primary to-accent text-primary-foreground hover:opacity-90">
-          {t("studios.viewStudio")}
+        <Button 
+          className="w-full bg-gradient-to-r from-primary to-accent text-primary-foreground hover:opacity-90"
+          asChild
+        >
+          <Link to={`/studio/${id}`}>
+            {t("studios.viewStudio")}
+          </Link>
         </Button>
       </div>
     </div>
