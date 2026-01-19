@@ -38,18 +38,18 @@ export const CategoryCard = ({
       <div className="relative space-y-4">
         {/* Icon */}
         <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-          <Icon className="w-7 h-7 text-primary" />
+          <Icon className="w-7 h-7 text-foreground" />
         </div>
 
         {/* Content */}
         <div>
-          <h3 className="text-lg font-semibold text-foreground group-hover:text-primary transition-colors">
+          <h3 className="text-lg font-semibold text-foreground group-hover:text-foreground/80 transition-colors">
             {isArabic && titleAr ? titleAr : title}
           </h3>
           {!isArabic && titleAr && (
-            <p className="text-sm text-primary/80 font-medium">{titleAr}</p>
+            <p className="text-sm text-foreground/80 font-medium">{titleAr}</p>
           )}
-          <p className="text-sm text-muted-foreground mt-1">{description}</p>
+          <p className="text-sm text-foreground/70 mt-1">{description}</p>
         </div>
 
         {/* Arrow indicator */}
