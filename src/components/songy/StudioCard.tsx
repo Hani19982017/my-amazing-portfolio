@@ -65,7 +65,7 @@ export const StudioCard = ({
             {isArabic && nameAr ? nameAr : name}
           </h3>
           {!isArabic && nameAr && (
-            <p className="text-sm text-primary/80">{nameAr}</p>
+            <p className="text-sm text-foreground/80">{nameAr}</p>
           )}
         </div>
 
@@ -84,10 +84,10 @@ export const StudioCard = ({
         {/* Rating */}
         <div className="flex items-center gap-2">
           <div className="flex items-center gap-1">
-            <Star className="w-4 h-4 text-primary fill-primary" />
-            <span className="text-sm font-medium">{rating}</span>
+            <Star className="w-4 h-4 text-foreground fill-foreground" />
+            <span className="text-sm font-medium text-foreground">{rating}</span>
           </div>
-          <span className="text-xs text-muted-foreground">
+          <span className="text-xs text-foreground/70">
             ({reviewCount} {t("singers.reviews")})
           </span>
         </div>
@@ -97,7 +97,7 @@ export const StudioCard = ({
           {displayServices.slice(0, 3).map((service) => (
             <span
               key={service}
-              className="px-2 py-0.5 rounded-full bg-primary/10 text-xs text-primary"
+              className="px-2 py-0.5 rounded-full bg-foreground/10 text-xs text-foreground"
             >
               {service}
             </span>
