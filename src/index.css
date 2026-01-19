@@ -6,74 +6,81 @@
 
 @layer base {
   :root {
-    --background: 220 20% 6%;
-    --foreground: 210 20% 95%;
+    --background: 0 0% 4%;
+    --foreground: 40 10% 95%;
 
-    --card: 220 18% 10%;
-    --card-foreground: 210 20% 95%;
+    --card: 0 0% 8%;
+    --card-foreground: 40 10% 95%;
 
-    --popover: 220 18% 10%;
-    --popover-foreground: 210 20% 95%;
+    --popover: 0 0% 10%;
+    --popover-foreground: 40 10% 95%;
 
-    --primary: 174 72% 56%;
-    --primary-foreground: 220 20% 6%;
+    --primary: 25 100% 50%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 220 18% 14%;
-    --secondary-foreground: 210 20% 95%;
+    --secondary: 0 0% 12%;
+    --secondary-foreground: 40 10% 95%;
 
-    --muted: 220 18% 16%;
-    --muted-foreground: 215 15% 55%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 30 5% 55%;
 
-    --accent: 280 65% 60%;
-    --accent-foreground: 210 20% 95%;
+    --accent: 35 100% 60%;
+    --accent-foreground: 0 0% 4%;
 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 220 15% 18%;
-    --input: 220 15% 18%;
-    --ring: 174 72% 56%;
+    --border: 30 10% 18%;
+    --input: 0 0% 12%;
+    --ring: 25 100% 50%;
 
     --radius: 0.75rem;
 
-    /* Custom portfolio tokens */
-    --gradient-hero: linear-gradient(135deg, hsl(174 72% 56% / 0.15) 0%, hsl(280 65% 60% / 0.1) 100%);
-    --gradient-card: linear-gradient(145deg, hsl(220 18% 12%) 0%, hsl(220 18% 8%) 100%);
-    --gradient-text: linear-gradient(135deg, hsl(174 72% 56%) 0%, hsl(280 65% 60%) 100%);
-    --glow-primary: 0 0 40px hsl(174 72% 56% / 0.3);
-    --glow-accent: 0 0 40px hsl(280 65% 60% / 0.3);
-    --shadow-card: 0 8px 32px hsl(0 0% 0% / 0.4);
+    /* SONGY Brand tokens - Orange/Gold */
+    --songy-orange: 25 100% 50%;
+    --songy-gold: 35 100% 60%;
+    --songy-dark: 0 0% 6%;
+    --songy-darker: 0 0% 4%;
+    
+    --gradient-hero: linear-gradient(135deg, hsl(25 100% 50% / 0.2) 0%, hsl(35 100% 60% / 0.15) 50%, hsl(0 0% 4%) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 10%) 0%, hsl(0 0% 6%) 100%);
+    --gradient-text: linear-gradient(135deg, hsl(25 100% 50%) 0%, hsl(35 100% 65%) 100%);
+    --gradient-cta: linear-gradient(135deg, hsl(25 100% 50%) 0%, hsl(30 100% 55%) 100%);
+    --glow-primary: 0 0 50px hsl(25 100% 50% / 0.4);
+    --glow-accent: 0 0 40px hsl(35 100% 60% / 0.3);
+    --shadow-card: 0 8px 32px hsl(0 0% 0% / 0.5);
+    --shadow-elevated: 0 20px 60px hsl(0 0% 0% / 0.6);
 
-    --sidebar-background: 220 18% 8%;
-    --sidebar-foreground: 210 20% 95%;
-    --sidebar-primary: 174 72% 56%;
-    --sidebar-primary-foreground: 220 20% 6%;
-    --sidebar-accent: 220 18% 14%;
-    --sidebar-accent-foreground: 210 20% 95%;
-    --sidebar-border: 220 15% 18%;
-    --sidebar-ring: 174 72% 56%;
+    --sidebar-background: 0 0% 6%;
+    --sidebar-foreground: 40 10% 95%;
+    --sidebar-primary: 25 100% 50%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 0 0% 12%;
+    --sidebar-accent-foreground: 40 10% 95%;
+    --sidebar-border: 30 10% 15%;
+    --sidebar-ring: 25 100% 50%;
   }
 
   .dark {
-    --background: 220 20% 6%;
-    --foreground: 210 20% 95%;
-    --card: 220 18% 10%;
-    --card-foreground: 210 20% 95%;
-    --popover: 220 18% 10%;
-    --popover-foreground: 210 20% 95%;
-    --primary: 174 72% 56%;
-    --primary-foreground: 220 20% 6%;
-    --secondary: 220 18% 14%;
-    --secondary-foreground: 210 20% 95%;
-    --muted: 220 18% 16%;
-    --muted-foreground: 215 15% 55%;
-    --accent: 280 65% 60%;
-    --accent-foreground: 210 20% 95%;
+    --background: 0 0% 4%;
+    --foreground: 40 10% 95%;
+    --card: 0 0% 8%;
+    --card-foreground: 40 10% 95%;
+    --popover: 0 0% 10%;
+    --popover-foreground: 40 10% 95%;
+    --primary: 25 100% 50%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 12%;
+    --secondary-foreground: 40 10% 95%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 30 5% 55%;
+    --accent: 35 100% 60%;
+    --accent-foreground: 0 0% 4%;
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 220 15% 18%;
-    --input: 220 15% 18%;
-    --ring: 174 72% 56%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 30 10% 18%;
+    --input: 0 0% 12%;
+    --ring: 25 100% 50%;
   }
 }
 
@@ -163,10 +170,10 @@
 
 @keyframes pulse-glow {
   0%, 100% {
-    box-shadow: 0 0 20px hsl(174 72% 56% / 0.3);
+    box-shadow: 0 0 20px hsl(25 100% 50% / 0.3);
   }
   50% {
-    box-shadow: 0 0 40px hsl(174 72% 56% / 0.5);
+    box-shadow: 0 0 40px hsl(25 100% 50% / 0.5);
   }
 }
 
@@ -206,4 +213,72 @@
 
 ::-webkit-scrollbar-thumb:hover {
   background: hsl(var(--primary) / 0.7);
+}
+
+/* SONGY App specific styles */
+.music-wave {
+  display: flex;
+  gap: 2px;
+  align-items: flex-end;
+  height: 20px;
+}
+
+.music-wave span {
+  width: 3px;
+  background: hsl(var(--primary));
+  border-radius: 2px;
+  animation: wave 1s ease-in-out infinite;
+}
+
+.music-wave span:nth-child(2) { animation-delay: 0.1s; }
+.music-wave span:nth-child(3) { animation-delay: 0.2s; }
+.music-wave span:nth-child(4) { animation-delay: 0.3s; }
+.music-wave span:nth-child(5) { animation-delay: 0.4s; }
+
+@keyframes wave {
+  0%, 100% { height: 8px; }
+  50% { height: 20px; }
+}
+
+.card-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-hover:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: var(--shadow-elevated);
+}
+
+.btn-glow {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-glow::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: var(--gradient-cta);
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: -1;
+  filter: blur(12px);
+}
+
+.btn-glow:hover::before {
+  opacity: 0.6;
+}
+
+.glass-card {
+  background: hsl(0 0% 8% / 0.8);
+  backdrop-filter: blur(12px);
+  border: 1px solid hsl(30 10% 20% / 0.5);
+}
+
+.text-songy-gradient {
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
