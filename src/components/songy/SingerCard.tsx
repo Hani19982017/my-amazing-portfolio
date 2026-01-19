@@ -106,12 +106,11 @@ export const SingerCard = ({
             <p className="text-xs text-muted-foreground">
               {t("singers.startingFrom")}
             </p>
-            <p className="text-primary font-semibold">{priceRange}</p>
+            <p className="text-foreground font-semibold">{priceRange}</p>
           </div>
           <Button
             size="sm"
-            variant="outline"
-            className="border-primary/50 text-primary hover:bg-primary/10"
+            className="bg-primary text-white hover:bg-primary/90"
           >
             {t("singers.bookNow")}
           </Button>
