@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { Music, User, MessageSquare, Send, ChevronDown } from "lucide-react";
+import { Music, User, MessageSquare, Send, ChevronDown, Building2 } from "lucide-react";
 import { AppLayout } from "@/components/songy/AppLayout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -23,6 +23,15 @@ const defaultSingers = [
   { id: "3", name: "Mohammed Ali", nameAr: "محمد علي", price: "SAR 600+" },
   { id: "4", name: "Nora Khalid", nameAr: "نورة خالد", price: "SAR 800+" },
   { id: "5", name: "Omar Saeed", nameAr: "عمر سعيد", price: "SAR 450+" },
+];
+
+const defaultStudios = [
+  { id: "1", name: "Golden Voice Studio", nameAr: "استوديو الصوت الذهبي", price: "Starting from SAR 500" },
+  { id: "2", name: "Melody Masters", nameAr: "أساتذة اللحن", price: "Starting from SAR 750" },
+  { id: "3", name: "Sound Wave Studios", nameAr: "استوديوهات موجة الصوت", price: "Starting from SAR 400" },
+  { id: "4", name: "Royal Music House", nameAr: "دار الموسيقى الملكية", price: "Starting from SAR 1500" },
+  { id: "5", name: "Nada Studios", nameAr: "استوديوهات ندى", price: "Starting from SAR 350" },
+  { id: "6", name: "Harmony Lab", nameAr: "مختبر الهارموني", price: "Starting from SAR 600" },
 ];
 
 const categories = [
@@ -51,24 +60,39 @@ const OrderFormPage = () => {
   const urlSingerNameAr = searchParams.get("singerNameAr");
   const urlPrice = searchParams.get("price");
 
+  // Get studio info from URL params (from StudioDetailPage click)
+  const urlStudioId = searchParams.get("studioId");
+  const urlStudioName = searchParams.get("studioName");
+  const urlStudioNameAr = searchParams.get("studioNameAr");
+  const urlStudioPrice = searchParams.get("studioPrice");
+
   // Create singers list including URL singer if not already in list
   const singers = urlSingerId && urlSingerName && !defaultSingers.find(s => s.id === urlSingerId)
     ? [...defaultSingers, { id: urlSingerId, name: urlSingerName, nameAr: urlSingerNameAr || "", price: urlPrice || "" }]
     : defaultSingers;
 
+  // Create studios list including URL studio if not already in list
+  const studios = urlStudioId && urlStudioName && !defaultStudios.find(s => s.id === urlStudioId)
+    ? [...defaultStudios, { id: urlStudioId, name: urlStudioName, nameAr: urlStudioNameAr || "", price: urlStudioPrice || "" }]
+    : defaultStudios;
+
   const [formData, setFormData] = useState({
     singerId: urlSingerId || "",
+    studioId: urlStudioId || "",
     category: "",
     recipientName: "",
     message: "",
   });
 
-  // Update singer when URL params change
+  // Update form when URL params change
   useEffect(() => {
     if (urlSingerId) {
       setFormData(prev => ({ ...prev, singerId: urlSingerId }));
     }
-  }, [urlSingerId]);
+    if (urlStudioId) {
+      setFormData(prev => ({ ...prev, studioId: urlStudioId }));
+    }
+  }, [urlSingerId, urlStudioId]);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -100,6 +124,7 @@ const OrderFormPage = () => {
   };
 
   const selectedSinger = singers.find((s) => s.id === formData.singerId);
+  const selectedStudio = studios.find((s) => s.id === formData.studioId);
 
   return (
     <AppLayout>
@@ -143,6 +168,36 @@ const OrderFormPage = () => {
             {selectedSinger && (
               <p className="text-sm text-primary">
                 {t("orderForm.priceStarting")}: {selectedSinger.price}
+              </p>
+            )}
+          </div>
+
+          {/* Studio Selection */}
+          <div className="space-y-2">
+            <Label htmlFor="studio" className="flex items-center gap-2 text-foreground">
+              <Building2 className="w-4 h-4 text-primary" />
+              {isArabic ? "اختر الاستوديو" : "Select Studio"}
+            </Label>
+            <Select
+              value={formData.studioId}
+              onValueChange={(value) => setFormData({ ...formData, studioId: value })}
+            >
+              <SelectTrigger className="w-full bg-card border-border">
+                <SelectValue placeholder={isArabic ? "اختر استوديو..." : "Choose a studio..."} />
+              </SelectTrigger>
+              <SelectContent>
+                {studios.map((studio) => (
+                  <SelectItem key={studio.id} value={studio.id}>
+                    <div className="flex items-center justify-between w-full gap-4">
+                      <span>{isArabic ? studio.nameAr : studio.name}</span>
+                    </div>
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            {selectedStudio && (
+              <p className="text-sm text-primary">
+                {selectedStudio.price}
               </p>
             )}
           </div>
