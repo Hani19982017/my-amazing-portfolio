@@ -31,7 +31,7 @@ export const HeroSection = () => {
           {/* Title */}
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
             {t("hero.title1")}
-            <span className="text-songy-gradient"> {t("hero.title2")} </span>
+            <span className="text-gradient"> {t("hero.title2")} </span>
             {t("hero.title3")}
           </h1>
 
@@ -69,7 +69,7 @@ export const HeroSection = () => {
           <div className="flex flex-wrap justify-center gap-8 pt-8">
             {stats.map((stat) => (
               <div key={stat.labelKey} className="text-center">
-                <div className="text-2xl md:text-3xl font-bold text-songy-gradient">
+                <div className="text-2xl md:text-3xl font-bold text-gradient">
                   {stat.value}
                 </div>
                 <div className="text-sm text-muted-foreground">
