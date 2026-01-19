@@ -1,27 +1,28 @@
 /* ============================================
    SONGY - Company Profile Website
-   Custom Styles
+   Custom Styles - Logo-inspired Orange/Gold Theme
    ============================================ */
 
 /* ============================================
    CSS Variables
    ============================================ */
 :root {
-    /* Spotify-inspired colors */
-    --spotify-green: #1DB954;
-    --spotify-green-dark: #1AA34A;
-    --spotify-green-light: #1ED760;
-    --spotify-black: #121212;
-    --spotify-dark-gray: #181818;
-    --spotify-gray: #282828;
-    --spotify-light-gray: #535353;
-    --spotify-text: #B3B3B3;
+    /* SONGY Logo-inspired colors - Orange/Gold */
+    --songy-orange: #FF6B00;
+    --songy-orange-dark: #E55D00;
+    --songy-orange-light: #FF8533;
+    --songy-gold: #FFB347;
+    --songy-black: #121212;
+    --songy-dark-gray: #181818;
+    --songy-gray: #282828;
+    --songy-light-gray: #535353;
+    --songy-text: #B3B3B3;
     
-    --primary-color: #1DB954;
-    --primary-dark: #1AA34A;
-    --primary-light: #1ED760;
+    --primary-color: #FF6B00;
+    --primary-dark: #E55D00;
+    --primary-light: #FF8533;
     --secondary-color: #121212;
-    --accent-color: #1DB954;
+    --accent-color: #FFB347;
     --text-color: #FFFFFF;
     --text-light: #B3B3B3;
     --text-white: #FFFFFF;
@@ -54,7 +55,7 @@ body {
     color: var(--text-color);
     line-height: 1.7;
     overflow-x: hidden;
-    background-color: var(--spotify-black);
+    background-color: var(--songy-black);
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -86,21 +87,21 @@ img {
    Buttons
    ============================================ */
 .btn-primary-custom {
-    background: var(--spotify-green);
-    color: var(--spotify-black);
+    background: var(--songy-orange);
+    color: var(--songy-black);
     border: none;
     padding: 12px 28px;
     border-radius: 50px;
     font-weight: 700;
     transition: var(--transition);
-    box-shadow: 0 4px 15px rgba(29, 185, 84, 0.3);
+    box-shadow: 0 4px 15px rgba(255, 107, 0, 0.3);
 }
 
 .btn-primary-custom:hover {
     transform: translateY(-2px);
-    background: var(--spotify-green-light);
-    box-shadow: 0 6px 20px rgba(29, 185, 84, 0.4);
-    color: var(--spotify-black);
+    background: var(--songy-orange-light);
+    box-shadow: 0 6px 20px rgba(255, 107, 0, 0.4);
+    color: var(--songy-black);
 }
 
 .btn-outline-light {
@@ -111,7 +112,7 @@ img {
 
 .btn-outline-light:hover {
     background-color: var(--text-white);
-    color: var(--spotify-black);
+    color: var(--songy-black);
     border-color: var(--text-white);
 }
 
@@ -134,7 +135,7 @@ img {
 
 /* Mobile menu background fix */
 .navbar-collapse {
-    background: var(--spotify-dark-gray);
+    background: var(--songy-dark-gray);
     border-radius: var(--border-radius);
     padding: 15px;
     margin-top: 10px;
@@ -360,8 +361,8 @@ img {
    ============================================ */
 .section-badge {
     display: inline-block;
-    background: rgba(29, 185, 84, 0.15);
-    color: var(--spotify-green);
+    background: rgba(255, 107, 0, 0.15);
+    color: var(--songy-orange);
     padding: 6px 16px;
     border-radius: 50px;
     font-size: 0.85rem;
@@ -421,17 +422,17 @@ img {
     align-items: center;
     gap: 12px;
     padding: 15px;
-    background: var(--spotify-gray);
+    background: var(--songy-gray);
     border-radius: var(--border-radius);
     transition: var(--transition);
 }
 
 .feature-item:hover {
-    background: rgba(29, 185, 84, 0.15);
+    background: rgba(255, 107, 0, 0.15);
 }
 
 .feature-item i {
-    color: var(--spotify-green);
+    color: var(--songy-orange);
     font-size: 1.5rem;
 }
 
@@ -445,11 +446,11 @@ img {
    ============================================ */
 .vision-mission-section {
     padding: 80px 0;
-    background: var(--spotify-dark-gray);
+    background: var(--songy-dark-gray);
 }
 
 .vm-card {
-    background: var(--spotify-gray);
+    background: var(--songy-gray);
     padding: 40px;
     border-radius: var(--border-radius-lg);
     height: 100%;
@@ -461,7 +462,7 @@ img {
 .vm-card:hover {
     transform: translateY(-5px);
     box-shadow: var(--shadow-xl);
-    border-color: var(--spotify-green);
+    border-color: var(--songy-orange);
 }
 
 .vm-icon {
@@ -476,13 +477,13 @@ img {
 }
 
 .vision-card .vm-icon {
-    background: rgba(29, 185, 84, 0.15);
-    color: var(--spotify-green);
+    background: rgba(255, 107, 0, 0.15);
+    color: var(--songy-orange);
 }
 
 .mission-card .vm-icon {
-    background: rgba(29, 185, 84, 0.15);
-    color: var(--spotify-green);
+    background: rgba(255, 179, 71, 0.15);
+    color: var(--songy-gold);
 }
 
 .vm-card h3 {
@@ -501,11 +502,11 @@ img {
    ============================================ */
 .values-section {
     padding: 80px 0;
-    background: var(--spotify-black);
+    background: var(--songy-black);
 }
 
 .value-card {
-    background: var(--spotify-gray);
+    background: var(--songy-gray);
     padding: 30px;
     border-radius: var(--border-radius);
     text-align: center;
@@ -517,20 +518,20 @@ img {
 .value-card:hover {
     transform: translateY(-5px);
     box-shadow: var(--shadow-lg);
-    border-color: var(--spotify-green);
+    border-color: var(--songy-orange);
 }
 
 .value-icon {
     width: 80px;
     height: 80px;
     border-radius: 50%;
-    background: var(--spotify-green);
+    background: var(--songy-orange);
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 0 auto 20px;
     font-size: 2rem;
-    color: var(--spotify-black);
+    color: var(--songy-black);
 }
 
 .value-card h4 {
@@ -548,11 +549,11 @@ img {
    ============================================ */
 .services-preview-section {
     padding: 80px 0;
-    background: var(--spotify-dark-gray);
+    background: var(--songy-dark-gray);
 }
 
 .service-card {
-    background: var(--spotify-gray);
+    background: var(--songy-gray);
     padding: 30px;
     border-radius: var(--border-radius);
     height: 100%;
@@ -563,20 +564,20 @@ img {
 .service-card:hover {
     transform: translateY(-5px);
     box-shadow: var(--shadow-lg);
-    border-color: var(--spotify-green);
+    border-color: var(--songy-orange);
 }
 
 .service-icon {
     width: 60px;
     height: 60px;
     border-radius: var(--border-radius);
-    background: rgba(29, 185, 84, 0.15);
+    background: rgba(255, 107, 0, 0.15);
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 20px;
     font-size: 1.5rem;
-    color: var(--spotify-green);
+    color: var(--songy-orange);
 }
 
 .service-card h4 {
@@ -590,7 +591,7 @@ img {
 }
 
 .service-link {
-    color: var(--spotify-green);
+    color: var(--songy-orange);
     font-weight: 600;
     display: inline-flex;
     align-items: center;
@@ -598,7 +599,7 @@ img {
 }
 
 .service-link:hover {
-    color: var(--spotify-green-light);
+    color: var(--songy-orange-light);
     gap: 12px;
 }
 
@@ -678,7 +679,7 @@ img {
 
 .footer-logo .brand-arabic {
     font-size: 1rem;
-    color: var(--spotify-green);
+    color: var(--songy-orange);
 }
 
 .footer-widget p {
@@ -709,9 +710,9 @@ img {
 }
 
 .footer-social a:hover {
-    background: var(--spotify-green);
+    background: var(--songy-orange);
     transform: translateY(-3px);
-    color: var(--spotify-black);
+    color: var(--songy-black);
 }
 
 .footer-links {
@@ -729,7 +730,7 @@ img {
 }
 
 .footer-links a:hover {
-    color: var(--spotify-green);
+    color: var(--songy-orange);
     padding-right: 5px;
 }
 
@@ -747,7 +748,7 @@ img {
 }
 
 .footer-contact i {
-    color: var(--spotify-green);
+    color: var(--songy-orange);
     width: 20px;
 }
 
@@ -756,7 +757,7 @@ img {
 }
 
 .footer-contact a:hover {
-    color: var(--spotify-green);
+    color: var(--songy-orange);
 }
 
 .app-buttons {
@@ -875,7 +876,7 @@ img {
    ============================================ */
 .about-section {
     padding: 80px 0;
-    background: var(--spotify-black);
+    background: var(--songy-black);
 }
 
 .about-content {
@@ -895,11 +896,11 @@ img {
 }
 
 .about-features .feature i {
-    color: var(--spotify-green);
+    color: var(--songy-orange);
 }
 
 .vm-card-large {
-    background: var(--spotify-gray);
+    background: var(--songy-gray);
     padding: 40px;
     border-radius: var(--border-radius-lg);
     height: 100%;
@@ -925,13 +926,13 @@ img {
 }
 
 .vm-card-large.vision .vm-icon-large {
-    background: rgba(29, 185, 84, 0.15);
-    color: var(--spotify-green);
+    background: rgba(255, 107, 0, 0.15);
+    color: var(--songy-orange);
 }
 
 .vm-card-large.mission .vm-icon-large {
-    background: rgba(29, 185, 84, 0.15);
-    color: var(--spotify-green);
+    background: rgba(255, 179, 71, 0.15);
+    color: var(--songy-gold);
 }
 
 .vm-card-large h3 {
@@ -948,7 +949,7 @@ img {
 .goal-card {
     display: flex;
     gap: 20px;
-    background: var(--spotify-gray);
+    background: var(--songy-gray);
     padding: 30px;
     border-radius: var(--border-radius);
     box-shadow: var(--shadow-sm);
@@ -959,7 +960,7 @@ img {
 .goal-number {
     font-size: 3rem;
     font-weight: 800;
-    color: var(--spotify-green);
+    color: var(--songy-orange);
     line-height: 1;
 }
 
@@ -974,7 +975,7 @@ img {
 }
 
 .value-card-page {
-    background: var(--spotify-gray);
+    background: var(--songy-gray);
     padding: 30px;
     border-radius: var(--border-radius);
     text-align: center;
@@ -987,27 +988,27 @@ img {
 .value-card-page:hover {
     transform: translateY(-5px);
     box-shadow: var(--shadow-lg);
-    border-color: var(--spotify-green);
+    border-color: var(--songy-orange);
 }
 
 .value-icon-page {
     width: 70px;
     height: 70px;
     border-radius: 50%;
-    background: var(--spotify-green);
+    background: var(--songy-orange);
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 0 auto 20px;
     font-size: 1.8rem;
-    color: var(--spotify-black);
+    color: var(--songy-black);
 }
 
 .difference-card {
     display: flex;
     gap: 20px;
     padding: 25px;
-    background: var(--spotify-gray);
+    background: var(--songy-gray);
     border-radius: var(--border-radius);
     box-shadow: var(--shadow-sm);
     height: 100%;
@@ -1017,7 +1018,7 @@ img {
 
 .difference-card:hover {
     box-shadow: var(--shadow-md);
-    border-color: var(--spotify-green);
+    border-color: var(--songy-orange);
 }
 
 .difference-icon {
@@ -1025,12 +1026,12 @@ img {
     height: 60px;
     min-width: 60px;
     border-radius: var(--border-radius);
-    background: rgba(29, 185, 84, 0.15);
+    background: rgba(255, 107, 0, 0.15);
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 1.5rem;
-    color: var(--spotify-green);
+    color: var(--songy-orange);
 }
 
 .difference-content h4 {
@@ -1058,7 +1059,7 @@ img {
    Services Page Styles
    ============================================ */
 .service-category-card {
-    background: var(--spotify-gray);
+    background: var(--songy-gray);
     padding: 40px;
     border-radius: var(--border-radius-lg);
     height: 100%;
@@ -1077,12 +1078,12 @@ img {
     width: 70px;
     height: 70px;
     border-radius: 50%;
-    background: var(--spotify-green);
+    background: var(--songy-orange);
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 1.8rem;
-    color: var(--spotify-black);
+    color: var(--songy-black);
 }
 
 .category-header h3 {
@@ -1110,11 +1111,11 @@ img {
 }
 
 .service-features li i {
-    color: var(--spotify-green);
+    color: var(--songy-orange);
 }
 
 .singer-category-card {
-    background: var(--spotify-gray);
+    background: var(--songy-gray);
     padding: 30px;
     border-radius: var(--border-radius);
     text-align: center;
@@ -1127,20 +1128,20 @@ img {
 .singer-category-card:hover {
     transform: translateY(-5px);
     box-shadow: var(--shadow-lg);
-    border-color: var(--spotify-green);
+    border-color: var(--songy-orange);
 }
 
 .singer-icon {
     width: 80px;
     height: 80px;
     border-radius: 50%;
-    background: rgba(29, 185, 84, 0.15);
+    background: rgba(255, 107, 0, 0.15);
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 0 auto 20px;
     font-size: 2rem;
-    color: var(--spotify-green);
+    color: var(--songy-orange);
 }
 
 .singer-category-card h4 {
@@ -1157,7 +1158,7 @@ img {
     display: flex;
     gap: 25px;
     padding: 30px;
-    background: var(--spotify-gray);
+    background: var(--songy-gray);
     border-radius: var(--border-radius);
     box-shadow: var(--shadow-md);
     height: 100%;
@@ -1169,12 +1170,12 @@ img {
     height: 70px;
     min-width: 70px;
     border-radius: var(--border-radius);
-    background: var(--spotify-green);
+    background: var(--songy-orange);
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 1.8rem;
-    color: var(--spotify-black);
+    color: var(--songy-black);
 }
 
 .studio-content h4 {
@@ -1204,11 +1205,11 @@ img {
     content: '•';
     position: absolute;
     right: 0;
-    color: var(--spotify-green);
+    color: var(--songy-orange);
 }
 
 .tech-service-card {
-    background: var(--spotify-gray);
+    background: var(--songy-gray);
     padding: 30px;
     border-radius: var(--border-radius);
     text-align: center;
@@ -1221,20 +1222,20 @@ img {
 .tech-service-card:hover {
     transform: translateY(-5px);
     box-shadow: var(--shadow-lg);
-    border-color: var(--spotify-green);
+    border-color: var(--songy-orange);
 }
 
 .tech-icon {
     width: 70px;
     height: 70px;
     border-radius: var(--border-radius);
-    background: rgba(29, 185, 84, 0.15);
+    background: rgba(255, 107, 0, 0.15);
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 0 auto 20px;
     font-size: 1.8rem;
-    color: var(--spotify-green);
+    color: var(--songy-orange);
 }
 
 .tech-service-card h4 {
@@ -1248,7 +1249,7 @@ img {
 }
 
 .song-type-card {
-    background: var(--spotify-gray);
+    background: var(--songy-gray);
     padding: 25px;
     border-radius: var(--border-radius);
     text-align: center;
@@ -1258,7 +1259,7 @@ img {
 }
 
 .song-type-card:hover {
-    border-color: var(--spotify-green);
+    border-color: var(--songy-orange);
     transform: translateY(-3px);
 }
 
@@ -1266,13 +1267,13 @@ img {
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    background: var(--spotify-green);
+    background: var(--songy-orange);
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 0 auto 15px;
     font-size: 1.5rem;
-    color: var(--spotify-black);
+    color: var(--songy-black);
 }
 
 .song-type-card h5 {
@@ -1285,7 +1286,7 @@ img {
    Categories Page Styles
    ============================================ */
 .category-card {
-    background: var(--spotify-gray);
+    background: var(--songy-gray);
     border-radius: var(--border-radius-lg);
     overflow: hidden;
     box-shadow: var(--shadow-md);
@@ -1297,24 +1298,24 @@ img {
 .category-card:hover {
     transform: translateY(-8px);
     box-shadow: var(--shadow-xl);
-    border-color: var(--spotify-green);
+    border-color: var(--songy-orange);
 }
 
 .category-image {
     height: 200px;
-    background: var(--spotify-green);
+    background: var(--songy-orange);
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.category-image.birthday { background: linear-gradient(135deg, #F59E0B, #D97706); }
+.category-image.birthday { background: linear-gradient(135deg, #FF6B00, #E55D00); }
 .category-image.newborn { background: linear-gradient(135deg, #EC4899, #DB2777); }
-.category-image.graduation { background: linear-gradient(135deg, #1DB954, #1AA34A); }
+.category-image.graduation { background: linear-gradient(135deg, #FFB347, #FF8533); }
 .category-image.love { background: linear-gradient(135deg, #EF4444, #DC2626); }
 .category-image.children { background: linear-gradient(135deg, #3B82F6, #2563EB); }
-.category-image.shilat { background: linear-gradient(135deg, #1DB954, #1AA34A); }
+.category-image.shilat { background: linear-gradient(135deg, #FF6B00, #E55D00); }
 .category-image.mothers { background: linear-gradient(135deg, #EC4899, #BE185D); }
 .category-image.fathers { background: linear-gradient(135deg, #0EA5E9, #0284C7); }
 
@@ -1357,18 +1358,18 @@ img {
     gap: 5px;
     font-size: 0.85rem;
     color: var(--text-white);
-    background: var(--spotify-dark-gray);
+    background: var(--songy-dark-gray);
     padding: 5px 12px;
     border-radius: 50px;
 }
 
 .category-features span i {
-    color: var(--spotify-green);
+    color: var(--songy-orange);
     font-size: 0.75rem;
 }
 
 .step-card {
-    background: var(--spotify-gray);
+    background: var(--songy-gray);
     padding: 30px;
     border-radius: var(--border-radius);
     text-align: center;
@@ -1385,8 +1386,8 @@ img {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background: var(--spotify-green);
-    color: var(--spotify-black);
+    background: var(--songy-orange);
+    color: var(--songy-black);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1398,13 +1399,13 @@ img {
     width: 80px;
     height: 80px;
     border-radius: 50%;
-    background: rgba(29, 185, 84, 0.15);
+    background: rgba(255, 107, 0, 0.15);
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 0 auto 20px;
     font-size: 2rem;
-    color: var(--spotify-green);
+    color: var(--songy-orange);
 }
 
 .step-card h4 {
@@ -1452,12 +1453,12 @@ img {
     height: 50px;
     min-width: 50px;
     border-radius: 50%;
-    background: rgba(29, 185, 84, 0.15);
+    background: rgba(255, 107, 0, 0.15);
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 1.2rem;
-    color: var(--spotify-green);
+    color: var(--songy-orange);
 }
 
 .info-content h5 {
@@ -1472,7 +1473,7 @@ img {
 }
 
 .info-content a:hover {
-    color: var(--spotify-green);
+    color: var(--songy-orange);
 }
 
 .social-links-contact {
@@ -1503,13 +1504,13 @@ img {
 }
 
 .social-icon:hover {
-    background: var(--spotify-green);
+    background: var(--songy-orange);
     transform: translateY(-3px);
-    color: var(--spotify-black);
+    color: var(--songy-black);
 }
 
 .contact-form-wrapper {
-    background: var(--spotify-gray);
+    background: var(--songy-gray);
     padding: 40px;
     border-radius: var(--border-radius-lg);
     box-shadow: var(--shadow-lg);
@@ -1547,7 +1548,7 @@ img {
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: var(--border-radius);
     transition: var(--transition);
-    background: var(--spotify-dark-gray);
+    background: var(--songy-dark-gray);
     color: var(--text-white);
 }
 
@@ -1557,14 +1558,14 @@ img {
 
 .contact-form .form-control:focus,
 .contact-form .form-select:focus {
-    border-color: var(--spotify-green);
-    box-shadow: 0 0 0 3px rgba(29, 185, 84, 0.15);
-    background: var(--spotify-dark-gray);
+    border-color: var(--songy-orange);
+    box-shadow: 0 0 0 3px rgba(255, 107, 0, 0.15);
+    background: var(--songy-dark-gray);
     color: var(--text-white);
 }
 
 .contact-form .form-select option {
-    background: var(--spotify-dark-gray);
+    background: var(--songy-dark-gray);
     color: var(--text-white);
 }
 
@@ -1573,19 +1574,19 @@ img {
     margin-bottom: 10px;
     border-radius: var(--border-radius) !important;
     overflow: hidden;
-    background: var(--spotify-gray);
+    background: var(--songy-gray);
 }
 
 .accordion-button {
     font-weight: 600;
     color: var(--text-white);
     padding: 20px;
-    background: var(--spotify-gray);
+    background: var(--songy-gray);
 }
 
 .accordion-button:not(.collapsed) {
-    background-color: rgba(29, 185, 84, 0.1);
-    color: var(--spotify-green);
+    background-color: rgba(255, 107, 0, 0.1);
+    color: var(--songy-orange);
     box-shadow: none;
 }
 
@@ -1601,7 +1602,7 @@ img {
 .accordion-body {
     color: var(--text-light);
     line-height: 1.8;
-    background: var(--spotify-gray);
+    background: var(--songy-gray);
 }
 
 /* ============================================
