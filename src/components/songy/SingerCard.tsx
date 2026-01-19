@@ -1,4 +1,5 @@
 import { Star, Play, Heart } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -111,8 +112,11 @@ export const SingerCard = ({
           <Button
             size="sm"
             className="bg-primary text-white hover:bg-primary/90"
+            asChild
           >
-            {t("singers.bookNow")}
+            <Link to="/order">
+              {t("singers.bookNow")}
+            </Link>
           </Button>
         </div>
       </div>
