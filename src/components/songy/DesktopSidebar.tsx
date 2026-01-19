@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { LanguageSwitcher } from "./LanguageSwitcher";
+import songyLogo from "@/assets/songy-logo.png";
 
 export const DesktopSidebar = () => {
   const location = useLocation();
@@ -27,10 +28,8 @@ export const DesktopSidebar = () => {
       {/* Logo */}
       <div className="p-6 border-b border-border flex items-center justify-between">
         <Link to="/" className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center">
-            <Music className="w-6 h-6 text-primary-foreground" />
-          </div>
-          <span className="text-xl font-bold text-songy-gradient">SONGY</span>
+          <img src={songyLogo} alt="SONGY" className="w-10 h-10 object-contain" />
+          <span className="text-xl font-bold text-gradient">SONGY</span>
         </Link>
         <LanguageSwitcher />
       </div>
