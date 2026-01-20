@@ -5,6 +5,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { AuthProvider } from "@/hooks/useAuth";
+import { AudioPlayerProvider } from "@/contexts/AudioPlayerContext";
+import { GlobalAudioPlayer } from "@/components/songy/GlobalAudioPlayer";
 import HomePage from "./pages/HomePage";
 import SingersPage from "./pages/SingersPage";
 import StudiosPage from "./pages/StudiosPage";
@@ -26,29 +28,32 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <LanguageProvider>
       <AuthProvider>
-        <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/auth" element={<AuthPage />} />
-              <Route path="/categories" element={<CategoriesPage />} />
-              <Route path="/categories/:category" element={<CategoriesPage />} />
-              <Route path="/singers" element={<SingersPage />} />
-              <Route path="/studios" element={<StudiosPage />} />
-              <Route path="/studio/:id" element={<StudioDetailPage />} />
-              <Route path="/profile" element={<ProfilePage />} />
-              <Route path="/orders" element={<OrdersPage />} />
-              <Route path="/order" element={<OrderFormPage />} />
-              <Route path="/favorites" element={<FavoritesPage />} />
-              <Route path="/settings" element={<SettingsPage />} />
-              <Route path="/notifications" element={<NotificationsPage />} />
-              <Route path="/payments" element={<PaymentsPage />} />
-              <Route path="/services/:service" element={<StudiosPage />} />
-            </Routes>
-          </BrowserRouter>
-        </TooltipProvider>
+        <AudioPlayerProvider>
+          <TooltipProvider>
+            <Toaster />
+            <Sonner />
+            <GlobalAudioPlayer />
+            <BrowserRouter>
+              <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/auth" element={<AuthPage />} />
+                <Route path="/categories" element={<CategoriesPage />} />
+                <Route path="/categories/:category" element={<CategoriesPage />} />
+                <Route path="/singers" element={<SingersPage />} />
+                <Route path="/studios" element={<StudiosPage />} />
+                <Route path="/studio/:id" element={<StudioDetailPage />} />
+                <Route path="/profile" element={<ProfilePage />} />
+                <Route path="/orders" element={<OrdersPage />} />
+                <Route path="/order" element={<OrderFormPage />} />
+                <Route path="/favorites" element={<FavoritesPage />} />
+                <Route path="/settings" element={<SettingsPage />} />
+                <Route path="/notifications" element={<NotificationsPage />} />
+                <Route path="/payments" element={<PaymentsPage />} />
+                <Route path="/services/:service" element={<StudiosPage />} />
+              </Routes>
+            </BrowserRouter>
+          </TooltipProvider>
+        </AudioPlayerProvider>
       </AuthProvider>
     </LanguageProvider>
   </QueryClientProvider>

@@ -19,6 +19,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
+import { PlayButton } from "@/components/songy/PlayButton";
 
 const ProfilePage = () => {
   const { t, language } = useLanguage();
@@ -146,9 +147,9 @@ const ProfilePage = () => {
                     <User className="w-10 h-10 text-primary" />
                   </div>
                 )}
-                <button className="absolute -bottom-1 -end-1 w-7 h-7 rounded-full bg-primary text-primary-foreground flex items-center justify-center">
-                  <Edit className="w-3.5 h-3.5" />
-                </button>
+                <div className="absolute -bottom-2 -end-2">
+                  <PlayButton size="sm" />
+                </div>
               </div>
 
               <div className="flex-1">
