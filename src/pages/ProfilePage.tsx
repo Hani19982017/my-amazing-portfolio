@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   User,
   Mail,
@@ -16,21 +16,77 @@ import {
 import { AppLayout } from "@/components/songy/AppLayout";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "@/hooks/useAuth";
+import { supabase } from "@/integrations/supabase/client";
 
 const ProfilePage = () => {
   const { t, language } = useLanguage();
   const isArabic = language === "ar";
+  const { user: authUser, signOut } = useAuth();
+  const navigate = useNavigate();
 
-  const [user] = useState({
-    name: "Abdullah Al-Saud",
-    nameAr: "عبدالله آل سعود",
-    email: "abdullah@example.com",
-    phone: "+966 50 123 4567",
-    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop",
-    ordersCount: 12,
-    favoritesCount: 8,
-  });
+  const [profile, setProfile] = useState<{
+    full_name: string | null;
+    avatar_url: string | null;
+    phone: string | null;
+  } | null>(null);
+  const [ordersCount, setOrdersCount] = useState(0);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      if (!authUser) {
+        setLoading(false);
+        return;
+      }
+
+      try {
+        // Fetch profile
+        const { data: profileData } = await supabase
+          .from("profiles")
+          .select("full_name, avatar_url, phone")
+          .eq("id", authUser.id)
+          .maybeSingle();
+
+        setProfile(profileData);
+
+        // Fetch orders count
+        const { count } = await supabase
+          .from("orders")
+          .select("*", { count: "exact", head: true })
+          .eq("user_id", authUser.id);
+
+        setOrdersCount(count || 0);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserData();
+  }, [authUser]);
+
+  const handleLogout = async () => {
+    await signOut();
+    navigate("/auth");
+  };
+
+  if (!authUser) {
+    return (
+      <AppLayout>
+        <div className="px-4 py-8 text-center">
+          <p className="text-muted-foreground mb-4">
+            {isArabic ? "يرجى تسجيل الدخول لعرض ملفك الشخصي" : "Please login to view your profile"}
+          </p>
+          <Link to="/auth">
+            <Button>{isArabic ? "تسجيل الدخول" : "Login"}</Button>
+          </Link>
+        </div>
+      </AppLayout>
+    );
+  }
 
   const menuItems = [
     {
@@ -79,11 +135,17 @@ const ProfilePage = () => {
           <div className="bg-gradient-to-br from-primary/20 to-accent/10 rounded-3xl p-6 mb-8">
             <div className="flex items-start gap-4">
               <div className="relative">
-                <img
-                  src={user.avatar}
-                  alt={user.name}
-                  className="w-20 h-20 rounded-2xl object-cover ring-4 ring-primary/20"
-                />
+                {profile?.avatar_url ? (
+                  <img
+                    src={profile.avatar_url}
+                    alt={profile.full_name || "User"}
+                    className="w-20 h-20 rounded-2xl object-cover ring-4 ring-primary/20"
+                  />
+                ) : (
+                  <div className="w-20 h-20 rounded-2xl bg-primary/20 ring-4 ring-primary/20 flex items-center justify-center">
+                    <User className="w-10 h-10 text-primary" />
+                  </div>
+                )}
                 <button className="absolute -bottom-1 -end-1 w-7 h-7 rounded-full bg-primary text-primary-foreground flex items-center justify-center">
                   <Edit className="w-3.5 h-3.5" />
                 </button>
@@ -91,16 +153,18 @@ const ProfilePage = () => {
 
               <div className="flex-1">
                 <h1 className="text-xl font-bold">
-                  {isArabic ? user.nameAr : user.name}
+                  {profile?.full_name || (isArabic ? "مستخدم" : "User")}
                 </h1>
                 <div className="flex items-center gap-2 text-sm text-muted-foreground mt-1">
                   <Mail className="w-4 h-4" />
-                  <span>{user.email}</span>
+                  <span>{authUser.email}</span>
                 </div>
-                <div className="flex items-center gap-2 text-sm text-muted-foreground mt-0.5">
-                  <Phone className="w-4 h-4" />
-                  <span dir="ltr">{user.phone}</span>
-                </div>
+                {profile?.phone && (
+                  <div className="flex items-center gap-2 text-sm text-muted-foreground mt-0.5">
+                    <Phone className="w-4 h-4" />
+                    <span dir="ltr">{profile.phone}</span>
+                  </div>
+                )}
               </div>
             </div>
 
@@ -108,7 +172,7 @@ const ProfilePage = () => {
             <div className="flex gap-4 mt-6">
               <div className="flex-1 bg-card/50 rounded-xl p-4 text-center">
                 <div className="text-2xl font-bold text-primary">
-                  {user.ordersCount}
+                  {ordersCount}
                 </div>
                 <div className="text-xs text-muted-foreground">
                   {t("profile.orders")}
@@ -116,7 +180,7 @@ const ProfilePage = () => {
               </div>
               <div className="flex-1 bg-card/50 rounded-xl p-4 text-center">
                 <div className="text-2xl font-bold text-primary">
-                  {user.favoritesCount}
+                  0
                 </div>
                 <div className="text-xs text-muted-foreground">
                   {t("profile.favorites")}
@@ -151,6 +215,7 @@ const ProfilePage = () => {
           <Button
             variant="outline"
             className="w-full mt-8 border-destructive/50 text-destructive hover:bg-destructive/10"
+            onClick={handleLogout}
           >
             <LogOut className="w-4 h-4 me-2" />
             {t("nav.logout")}
