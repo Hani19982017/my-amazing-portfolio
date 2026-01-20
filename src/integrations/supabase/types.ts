@@ -16,15 +16,21 @@ export type Database = {
     Tables: {
       orders: {
         Row: {
+          add_blessings: boolean | null
           category: string
           category_ar: string | null
           created_at: string
+          delivery_method: string | null
+          desired_duration: string | null
           estimated_delivery: string | null
           id: string
           message: string | null
+          occasion_date: string | null
+          other_details: string | null
           price: string | null
           recipient_name: string
           recipient_name_ar: string | null
+          similar_melody_link: string | null
           singer_id: string | null
           singer_image: string | null
           singer_name: string
@@ -36,17 +42,24 @@ export type Database = {
           studio_name_ar: string | null
           updated_at: string
           user_id: string
+          version_type: string | null
         }
         Insert: {
+          add_blessings?: boolean | null
           category: string
           category_ar?: string | null
           created_at?: string
+          delivery_method?: string | null
+          desired_duration?: string | null
           estimated_delivery?: string | null
           id?: string
           message?: string | null
+          occasion_date?: string | null
+          other_details?: string | null
           price?: string | null
           recipient_name: string
           recipient_name_ar?: string | null
+          similar_melody_link?: string | null
           singer_id?: string | null
           singer_image?: string | null
           singer_name: string
@@ -58,17 +71,24 @@ export type Database = {
           studio_name_ar?: string | null
           updated_at?: string
           user_id: string
+          version_type?: string | null
         }
         Update: {
+          add_blessings?: boolean | null
           category?: string
           category_ar?: string | null
           created_at?: string
+          delivery_method?: string | null
+          desired_duration?: string | null
           estimated_delivery?: string | null
           id?: string
           message?: string | null
+          occasion_date?: string | null
+          other_details?: string | null
           price?: string | null
           recipient_name?: string
           recipient_name_ar?: string | null
+          similar_melody_link?: string | null
           singer_id?: string | null
           singer_image?: string | null
           singer_name?: string
@@ -80,6 +100,7 @@ export type Database = {
           studio_name_ar?: string | null
           updated_at?: string
           user_id?: string
+          version_type?: string | null
         }
         Relationships: []
       }
