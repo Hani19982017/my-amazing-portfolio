@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams, Link } from "react-router-dom";
-import { Music, User, MessageSquare, Send, ChevronDown, Building2, LogIn } from "lucide-react";
+import { Music, User, MessageSquare, Send, ChevronDown, Building2, LogIn, Calendar, Link as LinkIcon, Clock, Mail, Phone, Sparkles } from "lucide-react";
 import { AppLayout } from "@/components/songy/AppLayout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import {
   Select,
@@ -49,6 +50,18 @@ const categories = [
   { id: "fathersDay", labelKey: "category.fathersDay", labelAr: "عيد الأب" },
 ];
 
+const versionTypes = [
+  { id: "short", labelEn: "Short", labelAr: "قصير" },
+  { id: "medium", labelEn: "Medium with Music", labelAr: "متوسط مع موسيقى" },
+  { id: "full", labelEn: "Full Production", labelAr: "إنتاج كامل" },
+];
+
+const deliveryMethods = [
+  { id: "whatsapp", labelEn: "WhatsApp Link", labelAr: "رابط على الواتساب" },
+  { id: "sms", labelEn: "SMS Link", labelAr: "رابط برسالة نصية" },
+  { id: "email", labelEn: "Email Link", labelAr: "رابط على الإيميل" },
+];
+
 const OrderFormPage = () => {
   const { t, language } = useLanguage();
   const { toast } = useToast();
@@ -85,6 +98,13 @@ const OrderFormPage = () => {
     category: "",
     recipientName: "",
     message: "",
+    occasionDate: "",
+    similarMelodyLink: "",
+    otherDetails: "",
+    versionType: "",
+    addBlessings: false,
+    desiredDuration: "",
+    deliveryMethod: "",
   });
 
   // Update form when URL params change
@@ -113,7 +133,7 @@ const OrderFormPage = () => {
     }
 
     // Validation
-    if (!formData.singerId || !formData.category || !formData.recipientName.trim()) {
+    if (!formData.singerId || !formData.category || !formData.recipientName.trim() || !formData.deliveryMethod) {
       toast({
         title: t("orderForm.error"),
         description: t("orderForm.fillRequired"),
@@ -149,6 +169,13 @@ const OrderFormPage = () => {
         status: "pending",
         price: selectedSinger?.price || null,
         estimated_delivery: estimatedDelivery.toISOString().split("T")[0],
+        occasion_date: formData.occasionDate || null,
+        similar_melody_link: formData.similarMelodyLink || null,
+        other_details: formData.otherDetails || null,
+        version_type: formData.versionType || null,
+        add_blessings: formData.addBlessings,
+        desired_duration: formData.desiredDuration || null,
+        delivery_method: formData.deliveryMethod,
       });
 
       if (error) throw error;
@@ -316,6 +343,127 @@ const OrderFormPage = () => {
             <p className="text-xs text-muted-foreground">
               {t("orderForm.recipientHint")}
             </p>
+          </div>
+
+          {/* Occasion Date */}
+          <div className="space-y-2">
+            <Label htmlFor="occasionDate" className="flex items-center gap-2 text-foreground">
+              <Calendar className="w-4 h-4 text-primary" />
+              {isArabic ? "تاريخ المناسبة" : "Occasion Date"}
+            </Label>
+            <Input
+              id="occasionDate"
+              type="date"
+              value={formData.occasionDate}
+              onChange={(e) => setFormData({ ...formData, occasionDate: e.target.value })}
+              className="bg-card border-border"
+            />
+          </div>
+
+          {/* Similar Melody Link */}
+          <div className="space-y-2">
+            <Label htmlFor="similarMelodyLink" className="flex items-center gap-2 text-foreground">
+              <LinkIcon className="w-4 h-4 text-primary" />
+              {isArabic ? "ألحان مشابهة (اختياري)" : "Similar Melody (Optional)"}
+            </Label>
+            <Input
+              id="similarMelodyLink"
+              type="url"
+              placeholder={isArabic ? "ألصق الرابط هنا" : "Paste link here"}
+              value={formData.similarMelodyLink}
+              onChange={(e) => setFormData({ ...formData, similarMelodyLink: e.target.value })}
+              className="bg-card border-border"
+            />
+          </div>
+
+          {/* Other Details */}
+          <div className="space-y-2">
+            <Label htmlFor="otherDetails" className="flex items-center gap-2 text-foreground">
+              <MessageSquare className="w-4 h-4 text-primary" />
+              {isArabic ? "تفاصيل أخرى" : "Other Details"}
+            </Label>
+            <Textarea
+              id="otherDetails"
+              placeholder={isArabic ? "أضف أي تفاصيل إضافية..." : "Add any additional details..."}
+              value={formData.otherDetails}
+              onChange={(e) => setFormData({ ...formData, otherDetails: e.target.value })}
+              className="bg-card border-border min-h-[80px] resize-none"
+              maxLength={500}
+            />
+          </div>
+
+          {/* Version Type */}
+          <div className="space-y-2">
+            <Label htmlFor="versionType" className="flex items-center gap-2 text-foreground">
+              <Sparkles className="w-4 h-4 text-primary" />
+              {isArabic ? "النسخة المطلوبة" : "Version Type"}
+            </Label>
+            <Select
+              value={formData.versionType}
+              onValueChange={(value) => setFormData({ ...formData, versionType: value })}
+            >
+              <SelectTrigger className="w-full bg-card border-border">
+                <SelectValue placeholder={isArabic ? "اختر..." : "Choose..."} />
+              </SelectTrigger>
+              <SelectContent>
+                {versionTypes.map((version) => (
+                  <SelectItem key={version.id} value={version.id}>
+                    {isArabic ? version.labelAr : version.labelEn}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          {/* Add Blessings */}
+          <div className="flex items-center space-x-2 rtl:space-x-reverse p-4 rounded-lg bg-card border border-border">
+            <Checkbox
+              id="addBlessings"
+              checked={formData.addBlessings}
+              onCheckedChange={(checked) => setFormData({ ...formData, addBlessings: checked === true })}
+            />
+            <Label htmlFor="addBlessings" className="text-foreground cursor-pointer">
+              {isArabic ? "إضافة ألف الصلاة والسلام و زغاريد" : "Add blessings and ululations"}
+            </Label>
+          </div>
+
+          {/* Desired Duration */}
+          <div className="space-y-2">
+            <Label htmlFor="desiredDuration" className="flex items-center gap-2 text-foreground">
+              <Clock className="w-4 h-4 text-primary" />
+              {isArabic ? "المدة المرغوبة" : "Desired Duration"}
+            </Label>
+            <Input
+              id="desiredDuration"
+              type="text"
+              placeholder={isArabic ? "مثال: 10 دقائق" : "Example: 10 minutes"}
+              value={formData.desiredDuration}
+              onChange={(e) => setFormData({ ...formData, desiredDuration: e.target.value })}
+              className="bg-card border-border"
+            />
+          </div>
+
+          {/* Delivery Method */}
+          <div className="space-y-2">
+            <Label htmlFor="deliveryMethod" className="flex items-center gap-2 text-foreground">
+              <Mail className="w-4 h-4 text-primary" />
+              {isArabic ? "طريقة إستلام الطلب" : "Delivery Method"} *
+            </Label>
+            <Select
+              value={formData.deliveryMethod}
+              onValueChange={(value) => setFormData({ ...formData, deliveryMethod: value })}
+            >
+              <SelectTrigger className="w-full bg-card border-border">
+                <SelectValue placeholder={isArabic ? "اختر..." : "Choose..."} />
+              </SelectTrigger>
+              <SelectContent>
+                {deliveryMethods.map((method) => (
+                  <SelectItem key={method.id} value={method.id}>
+                    {isArabic ? method.labelAr : method.labelEn}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
 
           {/* Custom Message */}
