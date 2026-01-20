@@ -172,18 +172,37 @@ const OrdersPage = () => {
     }
   };
 
+  // Demo song URLs for completed orders
+  const demoSongUrls = [
+    "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+    "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
+    "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",
+    "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3",
+    "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3",
+  ];
+
   const updateOrderStatus = async (orderId: string, newStatus: string, e: React.MouseEvent) => {
     e.stopPropagation();
     try {
+      const updateData: { status: string; song_url?: string } = { status: newStatus };
+      
+      // If marking as completed, attach a random demo song
+      if (newStatus === "completed") {
+        const randomSong = demoSongUrls[Math.floor(Math.random() * demoSongUrls.length)];
+        updateData.song_url = randomSong;
+      }
+
       const { error } = await supabase
         .from("orders")
-        .update({ status: newStatus })
+        .update(updateData)
         .eq("id", orderId);
 
       if (error) throw error;
 
       setOrders(orders.map(order => 
-        order.id === orderId ? { ...order, status: newStatus } : order
+        order.id === orderId 
+          ? { ...order, status: newStatus, song_url: newStatus === "completed" ? updateData.song_url! : order.song_url } 
+          : order
       ));
 
       toast.success(isArabic ? "تم تحديث الحالة بنجاح" : "Status updated successfully");
