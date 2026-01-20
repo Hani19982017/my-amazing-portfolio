@@ -1,8 +1,9 @@
-import { Star, Play, Heart } from "lucide-react";
+import { Star, Heart } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { PlayButton } from "@/components/songy/PlayButton";
 
 interface SingerCardProps {
   id: string;
@@ -62,9 +63,9 @@ export const SingerCard = ({
         <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent" />
 
         {/* Play Button */}
-        <button className="absolute bottom-4 end-4 w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 hover:scale-110 shadow-lg">
-          <Play className="w-5 h-5 ms-0.5" fill="currentColor" />
-        </button>
+        <div className="absolute bottom-4 end-4 opacity-0 group-hover:opacity-100 transition-all duration-300">
+          <PlayButton size="md" />
+        </div>
       </div>
 
       {/* Content */}
