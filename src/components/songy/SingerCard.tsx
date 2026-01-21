@@ -35,9 +35,10 @@ export const SingerCard = ({
   const displayGenres = isArabic && genresAr ? genresAr : genres;
 
   return (
-    <div
+    <Link
+      to={`/singer/${id}`}
       className={cn(
-        "group relative rounded-2xl overflow-hidden card-hover bg-card border border-border",
+        "group relative rounded-2xl overflow-hidden card-hover bg-card border border-border block",
         isFeatured && "ring-2 ring-primary/50"
       )}
     >
@@ -49,7 +50,10 @@ export const SingerCard = ({
       )}
 
       {/* Favorite Button */}
-      <button className="absolute top-3 end-3 z-10 w-8 h-8 rounded-full bg-background/80 backdrop-blur flex items-center justify-center hover:bg-primary/20 transition-colors">
+      <button 
+        onClick={(e) => e.preventDefault()}
+        className="absolute top-3 end-3 z-10 w-8 h-8 rounded-full bg-background/80 backdrop-blur flex items-center justify-center hover:bg-primary/20 transition-colors"
+      >
         <Heart className="w-4 h-4 text-foreground" />
       </button>
 
@@ -63,7 +67,10 @@ export const SingerCard = ({
         <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent" />
 
         {/* Play Button */}
-        <div className="absolute bottom-4 end-4 opacity-0 group-hover:opacity-100 transition-all duration-300">
+        <div 
+          onClick={(e) => e.preventDefault()}
+          className="absolute bottom-4 end-4 opacity-0 group-hover:opacity-100 transition-all duration-300"
+        >
           <PlayButton size="md" />
         </div>
       </div>
@@ -113,14 +120,18 @@ export const SingerCard = ({
           <Button
             size="sm"
             className="bg-primary text-white hover:bg-primary/90"
+            onClick={(e) => e.stopPropagation()}
             asChild
           >
-            <Link to={`/order?singerId=${id}&singerName=${encodeURIComponent(name)}&singerNameAr=${encodeURIComponent(nameAr || "")}&price=${encodeURIComponent(priceRange)}`}>
+            <Link 
+              to={`/order?singerId=${id}&singerName=${encodeURIComponent(name)}&singerNameAr=${encodeURIComponent(nameAr || "")}&price=${encodeURIComponent(priceRange)}`}
+              onClick={(e) => e.stopPropagation()}
+            >
               {t("singers.bookNow")}
             </Link>
           </Button>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };

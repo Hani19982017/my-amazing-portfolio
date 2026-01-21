@@ -9,6 +9,7 @@ import { AudioPlayerProvider } from "@/contexts/AudioPlayerContext";
 import { GlobalAudioPlayer } from "@/components/songy/GlobalAudioPlayer";
 import HomePage from "./pages/HomePage";
 import SingersPage from "./pages/SingersPage";
+import SingerDetailPage from "./pages/SingerDetailPage";
 import StudiosPage from "./pages/StudiosPage";
 import StudioDetailPage from "./pages/StudioDetailPage";
 import CategoriesPage from "./pages/CategoriesPage";
@@ -40,6 +41,7 @@ const App = () => (
                 <Route path="/categories" element={<CategoriesPage />} />
                 <Route path="/categories/:category" element={<CategoriesPage />} />
                 <Route path="/singers" element={<SingersPage />} />
+                <Route path="/singer/:id" element={<SingerDetailPage />} />
                 <Route path="/studios" element={<StudiosPage />} />
                 <Route path="/studio/:id" element={<StudioDetailPage />} />
                 <Route path="/profile" element={<ProfilePage />} />
