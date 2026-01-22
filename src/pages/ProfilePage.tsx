@@ -296,19 +296,15 @@ const ProfilePage = () => {
               </Link>
             ))}
 
-            {/* Logout Button - styled like menu item */}
+            {/* Logout Button */}
             <button
               onClick={handleLogout}
-              className="w-full flex items-center gap-4 p-4 rounded-xl bg-card border border-border hover:bg-muted/50 transition-colors text-start mt-4"
+              className="w-full flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-muted/50 transition-colors text-start mt-4"
             >
-              <div className="w-10 h-10 rounded-xl bg-muted/50 flex items-center justify-center">
-                <LogOut className="w-5 h-5 text-muted-foreground" />
-              </div>
-              <div className="flex-1">
-                <div className="font-medium text-muted-foreground">
-                  {isArabic ? "تسجيل الخروج" : "Log Out"}
-                </div>
-              </div>
+              <LogOut className="w-5 h-5 text-muted-foreground" />
+              <span className="font-medium text-muted-foreground">
+                {isArabic ? "تسجيل الخروج" : "Log Out"}
+              </span>
             </button>
           </div>
         </div>
