@@ -1,13 +1,21 @@
 import { Home, Grid3X3, Mic2, Music, User, Settings, LogOut, Heart, ShoppingCart } from "lucide-react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { LanguageSwitcher } from "./LanguageSwitcher";
+import { useAuth } from "@/hooks/useAuth";
 import songyLogo from "@/assets/songy-logo.png";
 
 export const DesktopSidebar = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const { t } = useLanguage();
+  const { signOut } = useAuth();
+
+  const handleLogout = async () => {
+    await signOut();
+    navigate("/auth");
+  };
 
   const mainNavItems = [
     { icon: Home, labelKey: "nav.home", path: "/" },
@@ -98,7 +106,10 @@ export const DesktopSidebar = () => {
 
       {/* Footer */}
       <div className="p-4 border-t border-border">
-        <button className="flex items-center gap-3 px-3 py-2.5 rounded-xl w-full text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-all">
+        <button
+          onClick={handleLogout}
+          className="flex items-center gap-3 px-3 py-2.5 rounded-xl w-full text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-all"
+        >
           <LogOut className="w-5 h-5" />
           <span className="font-medium">{t("nav.logout")}</span>
         </button>
